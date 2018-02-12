@@ -17,16 +17,17 @@ public class HeldValue {
 
     private int x;
     private int value;
-    
-    private ArrayList<HeldValue> gArray;
-    private ArrayList<HeldValue> fArray;
-    private int hValue;
+    private ArrayList<Integer> gArray = new ArrayList<>();
+    private ArrayList<Integer> fArray = new ArrayList<>();
+    private int hValue = null;
+    private boolean valuePresent = false;
     /**
-     * Default Constructor 
+     * 
+     * Constructor 
+     *
      */
-    public HeldValue(int x, int value) {
-        this.x = x;
-        this.value = value;
+    public HeldValue() {
+        
     }
 
     /**
@@ -39,6 +40,11 @@ public class HeldValue {
      * 
      */
     public synchronized void putF(int x, int value) {
+        if (fArray.get(x)) {
+            // THROW AN ERROR
+        }
+        fArray.add(x, value);
+
 
     }
 
@@ -74,7 +80,19 @@ public class HeldValue {
      * @param int x 
      */
     public synchronized int getF(int x) {
-        return 0;
+        valuePresent = false;
+        // Condition: Value is present.
+        if (gArray.get(x))
+            valuePresent = true;
+        
+        while (! valuePresent) {
+            // Condition: Value is present.
+            if (gArray.get(x))
+                valuePresent = true;
+            wait();
+        }
+        notifyAll();
+        return gArray.get(x);
     }
 
     /**
@@ -86,7 +104,18 @@ public class HeldValue {
      * @param int x 
      */
     public synchronized int getG(int x) {
-        return 0;
+        valuePresent = false;
+        if (gArray.get(x))
+            valuePresent = true;
+        
+        while (! valuePresent) {
+            // Condition: Value is present.
+            if (gArray.get(x))
+                valuePresent = true;
+            wait();
+        }
+        notifyAll();
+        return gArray.get(x);
     }
 
     /**
@@ -98,7 +127,20 @@ public class HeldValue {
      * @param int x 
      */
     public synchronized int getH(int x) {
-        return 0;
+        valuePresent = false;
+        if (hValue)
+            valuePresent = true;
+        
+        while (! valuePresent) {
+            // Condition: Value is present.
+            if (gArray.get(x))
+                valuePresent = true;
+            wait();
+        }
+        notifyAll();
+        return gArray.get(x);
+        
+        reutrn hValue;
     }
 
 

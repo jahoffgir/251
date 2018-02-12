@@ -1,10 +1,10 @@
 
 /**
  * Class AncientPrinter provides an object that simulates an ancient printer.
- * The ancient printer displays bytes at the rate of 30 bytes per second, like
- * the early hardcopy terminals that connected to the computer using a 300-bps
- * modem (10 bits/character). The printer output is displayed in its own window
- * on the screen.
+ *      The ancient printer displays bytes at the rate of 30 bytes per second, like
+ *      the early hardcopy terminals that connected to the computer using a 300-bps
+ *      modem (10 bits/character). The printer output is displayed in its own window
+ *      on the screen.
  * 
  * Usage: java Quadratic <a> <b> <c> <max>
  * @author  Jahongir Amirkulov
@@ -39,5 +39,7 @@ public class Quadratic {
             System.err.println("Maximum value of x is NOT greater than or equal to 0.");
             System.exit(1);
         }
+
+        
     }
 }
