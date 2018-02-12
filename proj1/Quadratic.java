@@ -38,8 +38,6 @@ public class Quadratic {
         if (max < 0) {
             System.err.println("Maximum value of x is NOT greater than or equal to 0.");
             System.exit(1);
-        }
-
-        
+        }        
     }
 }

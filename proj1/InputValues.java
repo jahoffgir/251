@@ -5,6 +5,7 @@
  * 
  * @author Jahongir Amirkulov
  * @version 02/12/18
+ * TODO Finish the documentation
  */
 public class InputValues implements Runnable{
 

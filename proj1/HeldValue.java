@@ -37,10 +37,10 @@ public class HeldValue {
      *
      */
     public HeldValue(int max) {
-        gArray = new int[max];
-        fArray = new int[max];
-        gBool = new boolean[max];
-        fBool = new boolean[max];
+        gArray = new int[max + 1];
+        fArray = new int[max + 1];
+        gBool = new boolean[max + 1];
+        fBool = new boolean[max + 1];
         this.max = max;
     }
 
