@@ -7,6 +7,7 @@ import java.util.ArrayList;
  *
  * @author  Jahongir Amirkulov
  * @version 02/12/18
+ * 
  */
 
 /**
@@ -27,7 +28,9 @@ public class HeldValue {
     private int hValue = null;
     private boolean valuePresent = false;
     
+    // max value of x
     private int max;
+    
     /**
      * 
      * Constructor that initializes the Arrays
@@ -95,6 +98,7 @@ public class HeldValue {
         hBool = true;
         notifyAll();
     }
+
     /**
      * 
      * returns the value of F(x) stored in the monitor. It is an error if x
@@ -144,6 +148,4 @@ public class HeldValue {
         notifyAll();
         return hValue;
     }
-
-
 }
