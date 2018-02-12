@@ -54,8 +54,11 @@ public class HeldValue {
      * 
      */
     public synchronized void putF(int x, int value) {
+        // error if the x is out of bounds. From 0 to max, inclusive.
+        if (x < 0 && x > max) throw IllegalArgumentException;
         // error when value has already been put
-        if (fArray[x]) throw (IllegalStateException);
+        else if (fBool[x]) throw (IllegalStateException);
+
         // insert a value to an array
         fArray[x] = value;
         fBool[x] = true;
@@ -73,8 +76,11 @@ public class HeldValue {
      * 
      */
     public synchronized void putG(int x, int value) {
+        // error if the x is out of bounds. From 0 to max, inclusive.
+        if (x < 0 && x > max) throw IllegalArgumentException;
         // error when value has already been put
-        if (fArray[x]) throw (IllegalStateException);
+        else if (fBool[x]) throw (IllegalStateException);
+
         // insert a value to an array
         gArray[x] = value;
         gBool[x] = true;
@@ -108,11 +114,14 @@ public class HeldValue {
      * @param int x 
      */
     public synchronized int getF(int x) {
-        if (x < 0 && x > max) throw IllegalArgumentException;
-        while (!fBool[x]) {
-            wait();
-        }
-        notifyAll();
+        // error if the x is out of bounds. From 0 to max, inclusive.
+        try {
+            while (!fBool[x]) {
+                wait();
+            }
+            notifyAll();
+        } catch (IllegalArgumentException e) {}
+        
         return fArray[x];
     }
 
@@ -125,12 +134,12 @@ public class HeldValue {
      * @param int x 
      */
     public synchronized int getG(int x) {
-        // Error, x is not in range from inclusive 0 to max.
-        if (x < 0 && x > max) throw IllegalArgumentException;
-        while (!gBool[x]) {
-            wait();
-        }
-        notifyAll();
+        try {
+            while (!gBool[x]) {
+                wait();
+            }
+            notifyAll();
+        } catch (IllegalArgumentException e) {}
         return gArray[x];
     }
 
