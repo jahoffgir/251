@@ -14,19 +14,31 @@ import java.util.ArrayList;
  */
 public class HeldValue {
 
-    private int x;
-    private int value;
-    private ArrayList<Integer> gArray = new ArrayList<>();
-    private ArrayList<Integer> fArray = new ArrayList<>();
+    // Array representing values of G and F
+    private int[] gArray; 
+    private int[] fArray;
+
+    // Array representing bool values of G and F
+    private boolean[] gBool; 
+    private boolean[] fBool;
+    private boolean hBool = false;
+
+    // int repesenting value of H
     private int hValue = null;
     private boolean valuePresent = false;
+    
+    private int max;
     /**
      * 
-     * Constructor 
+     * Constructor that initializes the Arrays
      *
      */
-    public HeldValue() {
-        
+    public HeldValue(int max) {
+        gArray = new int[max];
+        fArray = new int[max];
+        gBool = new boolean[max];
+        fBool = new boolean[max];
+        this.max = max;
     }
 
     /**
@@ -39,10 +51,12 @@ public class HeldValue {
      * 
      */
     public synchronized void putF(int x, int value) {
-        if (fArray.get(x)) {
-            // THROW AN ERROR
-        }
-        fArray.add(x, value);
+        // error when value has already been put
+        if (fArray[x]) throw (IllegalStateException);
+        // insert a value to an array
+        fArray[x] = value;
+        fBool[x] = true;
+        // insert a bool value to an array
         notifyAll();
     }
 
@@ -53,12 +67,14 @@ public class HeldValue {
      * 
      * @param int x - location of the value
      * @param int value - value to be stored
+     * 
      */
     public synchronized void putG(int x, int value) {
-        if (gArray.get(x)) {
-            // THROW AN ERROR
-        }
-        gArray.add(x, value);
+        // error when value has already been put
+        if (fArray[x]) throw (IllegalStateException);
+        // insert a value to an array
+        gArray[x] = value;
+        gBool[x] = true;
         notifyAll();
     }
 
@@ -72,10 +88,11 @@ public class HeldValue {
      * 
      */
     public synchronized void putH(int value) {
-        if (hValue) {
-            // THROW AN ERROR
-        }
+        // error when value has already been put
+        if (hBool) throw (IllegalStateException);
+        // insert a value to an hValue
         hValue = value;
+        hBool = true;
         notifyAll();
     }
     /**
@@ -87,19 +104,12 @@ public class HeldValue {
      * @param int x 
      */
     public synchronized int getF(int x) {
-        valuePresent = false;
-        // Condition: Value is present.
-        if (gArray.get(x))
-            valuePresent = true;
-        
-        while (! valuePresent) {
-            // Condition: Value is present.
-            if (gArray.get(x))
-                valuePresent = true;
+        if (x < 0 && x > max) throw IllegalArgumentException;
+        while (!fBool[x]) {
             wait();
         }
         notifyAll();
-        return gArray.get(x);
+        return fArray[x];
     }
 
     /**
@@ -111,17 +121,13 @@ public class HeldValue {
      * @param int x 
      */
     public synchronized int getG(int x) {
-        valuePresent = false;
-        if (gArray.get(x))
-            valuePresent = true;
-        while (! valuePresent) {
-            // Condition: Value is present.
-            if (gArray.get(x))
-                valuePresent = true;
+        // Error, x is not in range from inclusive 0 to max.
+        if (x < 0 && x > max) throw IllegalArgumentException;
+        while (!gBool[x]) {
             wait();
         }
         notifyAll();
-        return gArray.get(x);
+        return gArray[x];
     }
 
     /**
@@ -130,17 +136,9 @@ public class HeldValue {
      * is not in the range 0 through max inclusive. This method does not 
      * return until the value of H(x) has been put.
      * 
-     * @param int x 
      */
-    public synchronized int getH(int x) {
-        valuePresent = false;
-        if (hValue)
-            valuePresent = true;
-        
-        while (! valuePresent) {
-            // Condition: Value is present.
-            if (gArray.get(x))
-                valuePresent = true;
+    public synchronized int getH() {
+        while (!hBool) {
             wait();
         }
         notifyAll();
