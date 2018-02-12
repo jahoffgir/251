@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-
 /**
  *
  * A monitor class that holds the value of F(x) for x from 0 to max inclusive,
@@ -44,8 +43,7 @@ public class HeldValue {
             // THROW AN ERROR
         }
         fArray.add(x, value);
-
-
+        notifyAll();
     }
 
     /**
@@ -57,7 +55,11 @@ public class HeldValue {
      * @param int value - value to be stored
      */
     public synchronized void putG(int x, int value) {
-
+        if (gArray.get(x)) {
+            // THROW AN ERROR
+        }
+        gArray.add(x, value);
+        notifyAll();
     }
 
     /**
@@ -67,9 +69,14 @@ public class HeldValue {
      * 
      * @param int x - location of the value
      * @param int value - value to be stored
+     * 
      */
-    public synchronized void putH(int x, int value) {
-    
+    public synchronized void putH(int value) {
+        if (hValue) {
+            // THROW AN ERROR
+        }
+        hValue = value;
+        notifyAll();
     }
     /**
      * 
@@ -107,7 +114,6 @@ public class HeldValue {
         valuePresent = false;
         if (gArray.get(x))
             valuePresent = true;
-        
         while (! valuePresent) {
             // Condition: Value is present.
             if (gArray.get(x))
@@ -138,9 +144,7 @@ public class HeldValue {
             wait();
         }
         notifyAll();
-        return gArray.get(x);
-        
-        reutrn hValue;
+        return hValue;
     }
 
 
