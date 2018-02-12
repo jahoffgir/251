@@ -34,7 +34,7 @@ public class Quadratic {
             System.err.println("Arguments are not integers. Exiting.");
             System.exit(1);
         }
-        // Checkking the value of max
+        // Checking the value of max
         if (max < 0) {
             System.err.println("Maximum value of x is NOT greater than or equal to 0.");
             System.exit(1);

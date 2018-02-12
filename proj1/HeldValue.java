@@ -29,7 +29,7 @@ public class HeldValue {
      * @param int value - value to be stored
      * 
      */
-    public void putF(int x, int value) {
+    public synchronized void putF(int x, int value) {
 
     }
 
@@ -41,7 +41,7 @@ public class HeldValue {
      * @param int x - location of the value
      * @param int value - value to be stored
      */
-    public void putG(int x, int value) {
+    public synchronized void putG(int x, int value) {
 
     }
 
@@ -53,7 +53,7 @@ public class HeldValue {
      * @param int x - location of the value
      * @param int value - value to be stored
      */
-    public void putH(int x, int value) {
+    public synchronized void putH(int x, int value) {
     
     }
     /**
@@ -64,7 +64,7 @@ public class HeldValue {
      * 
      * @param int x 
      */
-    public int getF(int x) {
+    public synchronized int getF(int x) {
         return 0;
     }
 
@@ -76,7 +76,7 @@ public class HeldValue {
      * 
      * @param int x 
      */
-    public int getG(int x) {
+    public synchronized int getG(int x) {
         return 0;
     }
 
@@ -88,7 +88,7 @@ public class HeldValue {
      * 
      * @param int x 
      */
-    public int getH(int x) {
+    public synchronized int getH(int x) {
         return 0;
     }
 
