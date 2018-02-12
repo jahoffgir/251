@@ -5,7 +5,7 @@
  * @author Jahongir Amirkulov
  * @version 02/12/18
  */
-public class InputValues {
+public class InputValues implements Runnable{
 
     /**
      * Default Constructor
@@ -14,7 +14,7 @@ public class InputValues {
 
     }
 
-    
+
 
 
 }

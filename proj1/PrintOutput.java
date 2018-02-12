@@ -10,7 +10,7 @@ public class PrintOutput implements Runnable{
     /**
      * PrintOut Constructor 
      */
-    public PrintOutput() {
+    public PrintOutput(int x, int value) {
 
     }
 }
