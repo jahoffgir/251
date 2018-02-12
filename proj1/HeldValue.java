@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  *
  * A monitor class that holds the value of F(x) for x from 0 to max inclusive,
@@ -13,11 +15,18 @@
  */
 public class HeldValue {
 
+    private int x;
+    private int value;
+    
+    private ArrayList<HeldValue> gArray;
+    private ArrayList<HeldValue> fArray;
+    private int hValue;
     /**
      * Default Constructor 
      */
-    public HeldValue() {
-
+    public HeldValue(int x, int value) {
+        this.x = x;
+        this.value = value;
     }
 
     /**

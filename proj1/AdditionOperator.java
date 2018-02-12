@@ -9,7 +9,7 @@
  * @version 02/12/18
  * 
  */
- public class AdditionOperator {
+ public class AdditionOperator implements Runnable{
 
     /**
      * Default Constructor

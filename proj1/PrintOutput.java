@@ -5,10 +5,10 @@
  * @author Jahongit Amirkulov
  * @version 02/12/18
  */
-public class PrintOutput {
+public class PrintOutput implements Runnable{
     
     /**
-     * Default Constructor 
+     * PrintOut Constructor 
      */
     public PrintOutput() {
 
