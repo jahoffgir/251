@@ -5,7 +5,8 @@
  * the early hardcopy terminals that connected to the computer using a 300-bps
  * modem (10 bits/character). The printer output is displayed in its own window
  * on the screen.
- * TODO Need to finish the docs
+ * 
+ * Usage: java Quadratic <a> <b> <c> <max>
  * @author  Jahongir Amirkulov
  * @version 02/12/18
  */
@@ -21,7 +22,7 @@ public class Quadratic {
         int c = 0;
         int max = 0;
         try {
-            // coefficient of a, b, c, and max
+            // coefficients of a, b, c, and max
             a = Integer.parseInt(args[0]);
             b = Integer.parseInt(args[1]);
             c = Integer.parseInt(args[2]);
