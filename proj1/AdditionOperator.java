@@ -10,10 +10,27 @@
  */
  public class AdditionOperator implements Runnable{
 
+    private HeldValue hv;
+    private int max;
+
     /**
      * Default Constructor
      */
-    public AdditionOperator() {
-
+    public AdditionOperator(HeldValue hv, int max) {
+        this.max = max;
+        this.hv = hv;
     }
+
+    public void run() {
+        try {  
+            for (int i = 0; i < max; ++ i) {
+                hv.putG(i + 1, hv.getG(i) + hv.getH());
+                hv.putF(i + 1, hv.getF(i)+ hv.getG(i));
+            }   
+        }
+        catch (InterruptedException exc) {
+            // Shouldn't happen.
+        }
+    }
+
  }

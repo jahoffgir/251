@@ -25,7 +25,7 @@ public class HeldValue {
     private boolean hBool = false;
 
     // int repesenting value of H
-    private int hValue = null;
+    private int hValue;
     private boolean valuePresent = false;
     
     // max value of x
@@ -53,11 +53,11 @@ public class HeldValue {
      * @param int value - value to be stored
      * 
      */
-    public synchronized void putF(int x, int value) {
+    public synchronized void putF(int x, int value) throws InterruptedException{
         // error if the x is out of bounds. From 0 to max, inclusive.
-        if (x < 0 && x > max) throw IllegalArgumentException;
+        if (x < 0 && x > max) throw new IllegalArgumentException();
         // error when value has already been put
-        else if (fBool[x]) throw (IllegalStateException);
+        else if (fBool[x]) throw new IllegalStateException();
 
         // insert a value to an array
         fArray[x] = value;
@@ -75,11 +75,11 @@ public class HeldValue {
      * @param int value - value to be stored
      * 
      */
-    public synchronized void putG(int x, int value) {
+    public synchronized void putG(int x, int value) throws InterruptedException{
         // error if the x is out of bounds. From 0 to max, inclusive.
-        if (x < 0 && x > max) throw IllegalArgumentException;
+        if (x < 0 && x > max) throw new IllegalArgumentException();
         // error when value has already been put
-        else if (fBool[x]) throw (IllegalStateException);
+        // else if (fBool[x]) throw new IllegalStateException();
 
         // insert a value to an array
         gArray[x] = value;
@@ -96,9 +96,9 @@ public class HeldValue {
      * @param int value - value to be stored
      * 
      */
-    public synchronized void putH(int value) {
+    public synchronized void putH(int value) throws InterruptedException{
         // error when value has already been put
-        if (hBool) throw (IllegalStateException);
+        if (hBool) throw new IllegalStateException();
         // insert a value to an hValue
         hValue = value;
         hBool = true;
@@ -113,7 +113,7 @@ public class HeldValue {
      * 
      * @param int x 
      */
-    public synchronized int getF(int x) {
+    public synchronized int getF(int x) throws InterruptedException{
         // error if the x is out of bounds. From 0 to max, inclusive.
         try {
             while (!fBool[x]) {
@@ -133,7 +133,7 @@ public class HeldValue {
      * 
      * @param int x 
      */
-    public synchronized int getG(int x) {
+    public synchronized int getG(int x) throws InterruptedException{
         try {
             while (!gBool[x]) {
                 wait();
@@ -150,7 +150,7 @@ public class HeldValue {
      * return until the value of H(x) has been put.
      * 
      */
-    public synchronized int getH() {
+    public synchronized int getH() throws InterruptedException{
         while (!hBool) {
             wait();
         }

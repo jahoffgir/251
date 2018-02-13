@@ -17,16 +17,27 @@ public class Quadratic {
             System.err.println("Incorrect number of arguments. Need four arguments.");
             System.exit(1);
         }
-        int a = 0;
-        int b = 0;
-        int c = 0;
-        int max = 0;
+        int a;
+        int b;
+        int c;
+        int max;
         try {
             // coefficients of a, b, c, and max
             a = Integer.parseInt(args[0]);
             b = Integer.parseInt(args[1]);
             c = Integer.parseInt(args[2]);
             max = Integer.parseInt(args[3]);
+
+            // Checking the value of max
+            if (max < 0) {
+                System.err.println("Maximum value of x is NOT greater than or equal to 0.");
+                System.exit(1);
+            } 
+            HeldValue hv = new HeldValue(max);
+            
+            new Thread (new PrintOutput(hv, max)).start();
+            new Thread (new AdditionOperator(hv, max)).start();
+            new Thread (new InputValues(a, b, c, hv)).start();
             
         }
         // Checking the type of the args
@@ -34,10 +45,6 @@ public class Quadratic {
             System.err.println("Arguments are not integers. Exiting.");
             System.exit(1);
         }
-        // Checking the value of max
-        if (max < 0) {
-            System.err.println("Maximum value of x is NOT greater than or equal to 0.");
-            System.exit(1);
-        }        
+        
     }
 }

@@ -31,6 +31,4 @@ public class InputValues implements Runnable{
             hv.putH(2 * a);
         } catch (InterruptedException exc) {}   
     }
-
-
 }
