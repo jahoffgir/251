@@ -119,7 +119,7 @@ public class HeldValue {
             while (!fBool[x]) {
                 wait();
             }
-            notifyAll();
+    
         } catch (IllegalArgumentException e) {}
         
         return fArray[x];
@@ -138,7 +138,7 @@ public class HeldValue {
             while (!gBool[x]) {
                 wait();
             }
-            notifyAll();
+        
         } catch (IllegalArgumentException e) {}
         return gArray[x];
     }
@@ -154,7 +154,7 @@ public class HeldValue {
         while (!hBool) {
             wait();
         }
-        notifyAll();
+        
         return hValue;
     }
 }

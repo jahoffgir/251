@@ -10,23 +10,37 @@
  */
  public class AdditionOperator implements Runnable{
 
+    
+
     private HeldValue hv;
     private int max;
-
+    private Quadratic.Choice choice;
+    private int idx;
     /**
      * Default Constructor
      */
-    public AdditionOperator(HeldValue hv, int max) {
+    public AdditionOperator(HeldValue hv, int max, Quadratic.Choice choice, int idx) {
         this.max = max;
         this.hv = hv;
+        this.choice = choice;
+        this.idx = idx;
     }
 
     public void run() {
         try {  
-            for (int i = 0; i < max; ++ i) {
-                hv.putG(i + 1, hv.getG(i) + hv.getH());
-                hv.putF(i + 1, hv.getF(i)+ hv.getG(i));
-            }   
+            switch (choice) {
+                case ADDTOF:
+                    hv.putF(idx + 1, hv.getF(idx)+ hv.getG(idx));
+                    break;
+                        
+                case ADDTOG:
+                    hv.putG(idx + 1, hv.getG(idx) + hv.getH());
+                    break;
+            }
+            // for (int i = 0; i < max; ++ i) {
+            //     hv.putG(i + 1, hv.getG(i) + hv.getH());
+            //     hv.putF(i + 1, hv.getF(i)+ hv.getG(i));
+            // }   
         }
         catch (InterruptedException exc) {
             // Shouldn't happen.

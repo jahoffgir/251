@@ -1,4 +1,5 @@
 
+
 /**
  * Class AncientPrinter provides an object that simulates an ancient printer.
  *      The ancient printer displays bytes at the rate of 30 bytes per second, like
@@ -11,12 +12,16 @@
  * @version 02/12/18
  */
 public class Quadratic {
+    public static enum Choice {
+        ADDTOF, ADDTOG    
+    }
     public static void main(String [] args) {
         // Checking the number of args
         if (args.length != 4) {
             System.err.println("Incorrect number of arguments. Need four arguments.");
             System.exit(1);
         }
+        
         int a;
         int b;
         int c;
@@ -35,9 +40,23 @@ public class Quadratic {
             } 
             HeldValue hv = new HeldValue(max);
             
+            Choice choice = Choice.ADDTOG;
+            
+
             new Thread (new PrintOutput(hv, max)).start();
-            new Thread (new AdditionOperator(hv, max)).start();
-            new Thread (new InputValues(a, b, c, hv)).start();
+
+            for (int i = 0; i < max; i++) {
+                
+                new Thread (new AdditionOperator(hv, max, choice, i)).start();
+            }
+            choice = Choice.ADDTOF;
+            for (int i = 0; i < max; i++) {
+                
+                new Thread (new AdditionOperator(hv, max, choice, i)).start();
+            }
+            
+            
+            new Thread (new InputValues(a, b, c, hv)) .start();
             
         }
         // Checking the type of the args
