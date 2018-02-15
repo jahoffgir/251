@@ -9,12 +9,17 @@
  * 
  * Usage: java Quadratic <a> <b> <c> <max>
  * @author  Jahongir Amirkulov
- * @version 02/12/18
+ * @version 02/15/18
  */
 public class Quadratic {
+
+    /**
+     * Choice enum for deciding which addition to do.
+     */
     public static enum Choice {
         ADDTOF, ADDTOG    
     }
+    
     public static void main(String [] args) {
         // Checking the number of args
         if (args.length != 4) {
@@ -52,7 +57,7 @@ public class Quadratic {
             choice = Choice.ADDTOF;
             for (int i = 0; i < max; i++) {
                 
-                new Thread (new AdditionOperator(hv, max, choice, i)).start();
+                new Thread (new AdditionOperator(hv choice, i)).start();
             }
             
             

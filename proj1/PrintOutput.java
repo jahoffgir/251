@@ -1,22 +1,31 @@
 /**
- * A thread class that prints the program's output. There is one instance of 
- *      this class.
+ * A thread class that prints the program's output iteratively as it is being
+ * computed.
  * 
  * @author Jahongit Amirkulov
- * @version 02/12/18
+ * @version 02/14/18
  */
 public class PrintOutput implements Runnable{
     
     private HeldValue hv;
     private int max;
     /**
-     * PrintOut Constructor 
+     * Constructor for PrintOutput Constructor
+     * @param HeldValue hv - HeldValue monitor class
+     * @param int max - max value of the number of times to iterate 
      */
     public PrintOutput(HeldValue hv, int max) {
         this.hv = hv;
         this.max = max;
     }
 
+    /**
+     * * Run method for the thread. It will print the values of i, h, g and f.
+     * 
+     *  @exception  InterruptedException
+     *     Thrown if the calling thread is interrupted while running the run 
+     *     method.
+     */
     public void run() {
         try {  
             for (int i = 0; i <= max; ++ i) {
@@ -27,7 +36,7 @@ public class PrintOutput implements Runnable{
             }   
         }
         catch (InterruptedException exc) {
-            // Shouldn't happen.
+            throw new InterruptedException();
         }
     }
 }

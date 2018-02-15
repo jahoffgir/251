@@ -4,8 +4,7 @@
  *      times.
  * 
  * @author Jahongir Amirkulov
- * @version 02/12/18
- * TODO Finish the documentation
+ * @version 02/15/18
  */
 public class InputValues implements Runnable{
 
@@ -24,10 +23,11 @@ public class InputValues implements Runnable{
 
     public void run() {
         try {
+            // put C to F
             hv.putF(0, c);
             //adding a + b and then passing it to putG
             hv.putG(0, (a + b));
-
+            // put 2 * a to H
             hv.putH(2 * a);
         } catch (InterruptedException exc) {}   
     }
