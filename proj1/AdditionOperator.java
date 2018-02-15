@@ -37,10 +37,6 @@
                     hv.putG(idx + 1, hv.getG(idx) + hv.getH());
                     break;
             }
-            // for (int i = 0; i < max; ++ i) {
-            //     hv.putG(i + 1, hv.getG(i) + hv.getH());
-            //     hv.putF(i + 1, hv.getF(i)+ hv.getG(i));
-            // }   
         }
         catch (InterruptedException exc) {
             // Shouldn't happen.

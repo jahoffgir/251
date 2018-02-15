@@ -20,12 +20,10 @@ public class PrintOutput implements Runnable{
     public void run() {
         try {  
             for (int i = 0; i <= max; ++ i) {
-                
                 System.out.print(i + "\t");
                 System.out.print(hv.getH() + "\t");
                 System.out.print(hv.getG(i) + "\t");
                 System.out.println(hv.getF(i));
-
             }   
         }
         catch (InterruptedException exc) {
