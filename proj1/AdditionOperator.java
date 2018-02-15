@@ -50,8 +50,6 @@
                     break;
             }
         }
-        catch (InterruptedException exc) {
-            throw new InterruptedException();
-        }
+        catch (InterruptedException exc) {}
     }
  }

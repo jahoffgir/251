@@ -37,10 +37,10 @@ public class HeldValue {
      *
      */
     public HeldValue(int max) {
-        gArray = new int[max + 1];
-        fArray = new int[max + 1];
-        gBool = new boolean[max + 1];
-        fBool = new boolean[max + 1];
+        this.gArray = new int[max + 1];
+        this.fArray = new int[max + 1];
+        this.gBool = new boolean[max + 1];
+        this.fBool = new boolean[max + 1];
         this.max = max;
     }
 
@@ -54,16 +54,18 @@ public class HeldValue {
      * 
      */
     public synchronized void putF(int x, int value) throws InterruptedException{
-        // error if the x is out of bounds. From 0 to max, inclusive.
-        if (x < 0 && x > max) throw new IllegalArgumentException();
-        // error when value has already been put
-        else if (fBool[x]) throw new IllegalStateException();
+        try {
+            // error when value has already been put
+            if (fBool[x]) throw new IllegalStateException("Value already exists in F.");
 
-        // insert a value to an array
-        fArray[x] = value;
-        fBool[x] = true;
-        // insert a bool value to an array
-        notifyAll();
+            // insert a value to an array
+            fArray[x] = value;
+            fBool[x] = true;
+            // insert a bool value to an array
+            notifyAll(); 
+        } catch (IllegalArgumentException ill) {
+            throw new IllegalArgumentException("Error, X is not inclusive between 0-max.");
+        }
     }
 
     /**
@@ -120,7 +122,9 @@ public class HeldValue {
                 wait();
             }
     
-        } catch (IllegalArgumentException e) {}
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException();
+        }
         
         return fArray[x];
     }
@@ -138,9 +142,10 @@ public class HeldValue {
             while (!gBool[x]) {
                 wait();
             }
-        
-        } catch (IllegalArgumentException e) {}
-        return gArray[x];
+            return gArray[x];
+        } catch (IllegalArgumentException e) {
+            System.err.println("X is not in the range from 0-max inclusive.");
+        }
     }
 
     /**

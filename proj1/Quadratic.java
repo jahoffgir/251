@@ -19,7 +19,7 @@ public class Quadratic {
     public static enum Choice {
         ADDTOF, ADDTOG    
     }
-    
+
     public static void main(String [] args) {
         // Checking the number of args
         if (args.length != 4) {
@@ -52,12 +52,12 @@ public class Quadratic {
 
             for (int i = 0; i < max; i++) {
                 
-                new Thread (new AdditionOperator(hv, max, choice, i)).start();
+                new Thread (new AdditionOperator(hv, choice, i)).start();
             }
             choice = Choice.ADDTOF;
             for (int i = 0; i < max; i++) {
                 
-                new Thread (new AdditionOperator(hv choice, i)).start();
+                new Thread (new AdditionOperator(hv, choice, i)).start();
             }
             
             

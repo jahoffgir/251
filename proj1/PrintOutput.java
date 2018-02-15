@@ -1,3 +1,5 @@
+import java.util.concurrent.ExecutionException;
+
 /**
  * A thread class that prints the program's output iteratively as it is being
  * computed.
@@ -20,7 +22,7 @@ public class PrintOutput implements Runnable{
     }
 
     /**
-     * * Run method for the thread. It will print the values of i, h, g and f.
+     * Run method for the thread. It will print the values of i, h, g and f.
      * 
      *  @exception  InterruptedException
      *     Thrown if the calling thread is interrupted while running the run 
@@ -35,8 +37,6 @@ public class PrintOutput implements Runnable{
                 System.out.println(hv.getF(i));
             }   
         }
-        catch (InterruptedException exc) {
-            throw new InterruptedException();
-        }
+        catch (InterruptedException exc) {}
     }
 }
