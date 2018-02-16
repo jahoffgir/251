@@ -40,8 +40,6 @@ public class InputValues implements Runnable{
             hv.putG(0, (a + b));
             // put 2 * a to H
             hv.putH(2 * a);
-        } catch (InterruptedException exc) {
-
-        }   
+        } catch (InterruptedException exc) {}   
     }
 }

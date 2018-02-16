@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 /**
  *
  * A monitor class that holds the value of F(x) for x from 0 to max inclusive,
@@ -25,9 +24,7 @@ public class HeldValue {
     private boolean hBool = false;
 
     // int repesenting value of H
-    private int hValue;
-    private boolean valuePresent = false;
-    
+    private int hValue;    
     // max value of x
     private int max;
     
@@ -37,11 +34,11 @@ public class HeldValue {
      *
      */
     public HeldValue(int max) {
+        this.max = max;
         this.gArray = new int[max + 1];
         this.fArray = new int[max + 1];
         this.gBool = new boolean[max + 1];
         this.fBool = new boolean[max + 1];
-        this.max = max;
     }
 
     /**
@@ -54,18 +51,22 @@ public class HeldValue {
      * 
      */
     public synchronized void putF(int x, int value) throws InterruptedException{
-        try {
-            // error when value has already been put
-            if (fBool[x]) throw new IllegalStateException("Value already exists in F.");
-
-            // insert a value to an array
-            fArray[x] = value;
-            fBool[x] = true;
-            // insert a bool value to an array
-            notifyAll(); 
-        } catch (IllegalArgumentException ill) {
-            throw new IllegalArgumentException("Error, X is not inclusive between 0-max.");
+        // checking the boundary from 0 to max inclusive
+        if (x > max || x < 0) {
+            System.err.println("X is not in range 0 through max inclusive");
+            System.exit(1);
         }
+        // error when value has already been put
+        if (fBool[x]) {
+            System.err.println("The value of F has already been put.");
+            System.exit(1);
+        }
+
+        // insert a value to an array
+        fArray[x] = value;
+        fBool[x] = true;
+        // insert a bool value to an array
+        notifyAll(); 
     }
 
     /**
@@ -78,29 +79,37 @@ public class HeldValue {
      * 
      */
     public synchronized void putG(int x, int value) throws InterruptedException{
-        // error if the x is out of bounds. From 0 to max, inclusive.
-        if (x < 0 && x > max) throw new IllegalArgumentException();
+        // checking the boundary from 0 to max inclusive
+        if (x > max || x < 0) {
+            System.err.println("X is not in range 0 through max inclusive");
+            System.exit(1);
+        }
         // error when value has already been put
-        // else if (fBool[x]) throw new IllegalStateException();
-
+        if (gBool[x]) {
+            System.err.println("The value of G has already been put.");
+            System.exit(1);
+        }
         // insert a value to an array
         gArray[x] = value;
         gBool[x] = true;
-        notifyAll();
+        // insert a bool value to an array
+        notifyAll(); 
     }
+    
 
     /**
-     * puts the given value into the monitor as the value for G(x). It is 
-     * an error if x is not in the range 0 through max inclusive. It is 
-     * an error if the value of G(x) has already been put.
-     * 
-     * @param int x - location of the value
+     * This method puts the given value into the monitor as the value for H. 
+     * It is an error if the value of H has already been put.
+     *
      * @param int value - value to be stored
      * 
      */
     public synchronized void putH(int value) throws InterruptedException{
         // error when value has already been put
-        if (hBool) throw new IllegalStateException();
+        if (hBool) {
+            System.err.println("The value of H has already been put.");
+            System.exit(1);
+        }
         // insert a value to an hValue
         hValue = value;
         hBool = true;
@@ -114,18 +123,17 @@ public class HeldValue {
      * return until the value of F(x) has been put.
      * 
      * @param int x 
+     * @return the element that is being accessed
      */
     public synchronized int getF(int x) throws InterruptedException{
         // error if the x is out of bounds. From 0 to max, inclusive.
-        try {
-            while (!fBool[x]) {
-                wait();
-            }
-    
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException();
+        if (x > max || x < 0) {
+            System.err.println("X is not in range 0 through max inclusive");
+            System.exit(1);
         }
-        
+        while (!fBool[x]) {
+            wait();
+        }  
         return fArray[x];
     }
 
@@ -135,31 +143,32 @@ public class HeldValue {
      * is not in the range 0 through max inclusive. This method does not 
      * return until the value of G(x) has been put.
      * 
-     * @param int x 
+     * @param int x the index of the element
+     * @return the element that is being accessed
      */
     public synchronized int getG(int x) throws InterruptedException{
-        try {
-            while (!gBool[x]) {
-                wait();
-            }
-            return gArray[x];
-        } catch (IllegalArgumentException e) {
-            System.err.println("X is not in the range from 0-max inclusive.");
+        if (x > max || x < 0) {
+            System.err.println("X is not in range 0 through max inclusive");
+            System.exit(1);
         }
+        while (!gBool[x]) {
+            wait();
+        }
+        return gArray[x];
     }
 
     /**
      * 
-     * returns the value of H(x) stored in the monitor. It is an error if x
-     * is not in the range 0 through max inclusive. This method does not 
-     * return until the value of H(x) has been put.
+     * This method returns the value of H stored in the monitor. This method 
+     * does not return until the value of H has been put.
      * 
+     * @return hValue - value of H
      */
     public synchronized int getH() throws InterruptedException{
+        // waits 
         while (!hBool) {
             wait();
         }
-        
         return hValue;
     }
 }

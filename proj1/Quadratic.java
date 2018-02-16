@@ -1,11 +1,8 @@
 
 
 /**
- * Class AncientPrinter provides an object that simulates an ancient printer.
- *      The ancient printer displays bytes at the rate of 30 bytes per second, like
- *      the early hardcopy terminals that connected to the computer using a 300-bps
- *      modem (10 bits/character). The printer output is displayed in its own window
- *      on the screen.
+ *  Calculate a quadratic function, F(x) = ax2 + bx + c, given the fixed 
+ *      coefficients a, b, and c, for integer values of x: F(0), F(1), F(2), and so on..
  * 
  * Usage: java Quadratic <a> <b> <c> <max>
  * @author  Jahongir Amirkulov
@@ -19,14 +16,17 @@ public class Quadratic {
     public static enum Choice {
         ADDTOF, ADDTOG    
     }
-
+    
+    /**
+     * Main method
+     */
     public static void main(String [] args) {
         // Checking the number of args
         if (args.length != 4) {
             System.err.println("Incorrect number of arguments. Need four arguments.");
             System.exit(1);
         }
-        
+        // input variables
         int a;
         int b;
         int c;
@@ -43,32 +43,30 @@ public class Quadratic {
                 System.err.println("Maximum value of x is NOT greater than or equal to 0.");
                 System.exit(1);
             } 
+            // Monitor class
             HeldValue hv = new HeldValue(max);
-            
+            // Choice enum - add to G first
             Choice choice = Choice.ADDTOG;
-            
-
+            // Starting PrintOut thread
             new Thread (new PrintOutput(hv, max)).start();
 
             for (int i = 0; i < max; i++) {
-                
+                // Starting AdditionOperator
                 new Thread (new AdditionOperator(hv, choice, i)).start();
             }
+            // Change choice to F
             choice = Choice.ADDTOF;
             for (int i = 0; i < max; i++) {
-                
+                //Starting AdditionOperator 
                 new Thread (new AdditionOperator(hv, choice, i)).start();
             }
-            
-            
-            new Thread (new InputValues(a, b, c, hv)) .start();
-            
+            // Starting InputValues
+            new Thread (new InputValues(a, b, c, hv)) .start();  
         }
         // Checking the type of the args
         catch (IllegalArgumentException e) {
             System.err.println("Arguments are not integers. Exiting.");
             System.exit(1);
         }
-        
     }
 }
