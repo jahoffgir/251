@@ -9,8 +9,9 @@
  * @version 02/26/18
  *
  */
-
 public class Goldbach {
+    
+    // main method 
     public static void main(String [] args) {
         // TODO
     }
