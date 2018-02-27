@@ -9,11 +9,22 @@
  * @version 02/26/18
  *
  */
+
 public class Goldbach {
-    
-    // main method 
-    public static void main(String [] args) {
-        // TODO
+   
+    /**
+     *
+     * Main Program
+     *
+     */
+    public static void main(String [] args) throws Exception {
+        // Validate command line arguments.
+        if (args.length < 1) {
+            System.error.println("<n> must be an even number > 4");
+        }
+        try {
+
+        } catch(Exception)
     }
 }
 
