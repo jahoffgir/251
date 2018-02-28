@@ -13,10 +13,11 @@ import edu.rit.pj2.*;
 import edu.rit.pj2.IntParallelForLoop;
 import edu.rit.pj2.Task;
 import edu.rit.pj2.vbl.IntVbl;
+import edu.rit.pj2.vbl.IntArrayVbl;
 public class Goldbach extends Task{
   
     // Stores all of the prime numbers that equal to the input
-    IntVbl count;
+    IntArrayVbl arr;
 
     /**
      * Main Program
@@ -37,9 +38,9 @@ public class Goldbach extends Task{
                 System.err.println("<n> must be an even number > 4");
                 System.exit(1);
             }
-            count = new IntVbl.Sum(0);            
+            arr = new IntArrayVbl(n);            
             parallelFor (0, n - 1) .exec (new Loop() {
-                IntVbl thrCount;
+                IntArrayVbl thrCount;
                 /**
                  * Start method
                  */
@@ -52,7 +53,7 @@ public class Goldbach extends Task{
                  * @param i 
                  */
                 public void run (int i) {
-                    
+                    thrCount.item[thrCount.item.length] = n;    
                 }
             });
         } 
