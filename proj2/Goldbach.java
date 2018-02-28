@@ -11,11 +11,12 @@
  */
 
 public class Goldbach {
-   
+  
+    // Stores all of the prime numbers that equal to the input
+    IntVbl arr;
+
     /**
-     *
      * Main Program
-     *
      */
     public static void main(String [] args) throws Exception {
         // Validate command line arguments.
@@ -33,13 +34,14 @@ public class Goldbach {
                 System.err.println("<n> must be an even number > 4");
                 System.exit(1);
             }
-
+            
             parallelFor (0, n - 1) .exec (new Loop() {
+                IntVbl thrCount;
                 /**
                  * Start method
                  */
                 public void start() {
-
+                    thrCount = threadLocal(count);
                 }
 
                 /**
