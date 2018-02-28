@@ -9,16 +9,19 @@
  * @version 02/26/18
  *
  */
-
-public class Goldbach {
+import edu.rit.pj2.*;
+import edu.rit.pj2.IntParallelForLoop;
+import edu.rit.pj2.Task;
+import edu.rit.pj2.vbl.IntVbl;
+public class Goldbach extends Task{
   
     // Stores all of the prime numbers that equal to the input
-    IntVbl arr;
+    IntVbl count;
 
     /**
      * Main Program
      */
-    public static void main(String [] args) throws Exception {
+    public void main(String [] args) throws Exception {
         // Validate command line arguments.
         if (args.length < 1) {
             System.err.println("Incorrect number of arguements");
@@ -34,7 +37,7 @@ public class Goldbach {
                 System.err.println("<n> must be an even number > 4");
                 System.exit(1);
             }
-            
+            count = new IntVbl.Sum(0);            
             parallelFor (0, n - 1) .exec (new Loop() {
                 IntVbl thrCount;
                 /**
