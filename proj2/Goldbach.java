@@ -1,5 +1,4 @@
 /**
- * 
  * A Goldbach number is an even number that is the sum of two primes. The
  * Goldbach Conjecture, posed by German mathematician Christian Goldbach in 1742
  * and as yet not proven or disproven, is that every even number greater than 4 
@@ -7,7 +6,6 @@
  *
  * @author Jahongir Amirkulov
  * @version 02/26/18
- *
  */
 import edu.rit.pj2.*;
 import edu.rit.pj2.IntParallelForLoop;
@@ -39,9 +37,11 @@ public class Goldbach extends Task{
                 System.err.println("<n> must be an even number > 4");
                 System.exit(1);
             }
-            arr = new IntArrayVbl(n);            
+
+            arr = new IntArrayVbl(n);        
             parallelFor (1, n) .exec (new Loop() {
                 IntArrayVbl thrCount;
+
                 /**
                  * Start method
                  */
@@ -66,7 +66,10 @@ public class Goldbach extends Task{
 
                             if (bigi.isProbablePrime(64)) {
                                 // step 1 check if i and j equal to n
-                                // step 2 store that num to the array                                
+                                if (i + j == n) {                   
+                                    // step 2 store that num to the array    
+                                    arr.item[i-1] = i;
+                                }                            
                             }  
                         }
                     }
