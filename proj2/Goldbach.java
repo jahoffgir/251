@@ -14,6 +14,7 @@ import edu.rit.pj2.IntParallelForLoop;
 import edu.rit.pj2.Task;
 import edu.rit.pj2.vbl.IntVbl;
 import edu.rit.pj2.vbl.IntArrayVbl;
+import java.math.BigInteger;
 public class Goldbach extends Task{
   
     // Stores all of the prime numbers that equal to the input
@@ -39,13 +40,13 @@ public class Goldbach extends Task{
                 System.exit(1);
             }
             arr = new IntArrayVbl(n);            
-            parallelFor (0, n - 1) .exec (new Loop() {
+            parallelFor (1, n) .exec (new Loop() {
                 IntArrayVbl thrCount;
                 /**
                  * Start method
                  */
                 public void start() {
-                    thrCount = threadLocal(count);
+                    thrCount = threadLocal(arr);
                 }
 
                 /**
@@ -53,7 +54,22 @@ public class Goldbach extends Task{
                  * @param i 
                  */
                 public void run (int i) {
-                    thrCount.item[thrCount.item.length] = n;    
+                    // convert int to BigInteger
+                    BigInteger bigi = BigInteger.valueOf(i);
+
+                    // checking if it is a prime
+                    if (bigi.isProbablePrime(64)) {
+
+                        // checking if the next nums are prime that equal n
+                        for (int j = i; i < n; j++) {
+                            BigInteger bigj = BigInteger.valueOf(j);       
+
+                            if (bigi.isProbablePrime(64)) {
+                                // step 1 check if i and j equal to n
+                                // step 2 store that num to the array                                
+                            }  
+                        }
+                    }
                 }
             });
         } 
