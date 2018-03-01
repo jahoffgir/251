@@ -17,9 +17,9 @@ public class Goldbach extends Task{
   
     // Stores all of the prime numbers that equal to the input
     IntVbl num;
-    IntVbl min;
-    IntVbl max;
+    
 
+    
     /**
      * Main Program
      */
@@ -30,7 +30,7 @@ public class Goldbach extends Task{
             System.exit(1);
         }
 
-        try {
+//        try {
             // even number n
             int N = Integer.parseInt(args[0]);
             // checking for even number
@@ -38,58 +38,54 @@ public class Goldbach extends Task{
                 System.err.println("<n> must be an even number > 4");
                 System.exit(1);
             }
-            num = new IntVbl.Sum(0);
-            min = new IntVbl.Min(N);
-            max = new IntVbl.Max(3);
-                
-            
-            parallelFor (3, N/2) .exec (new Loop() {
+            int[] arrs = new int[N];
+            num = new IntVbl.Sum();
+            num.item = 0;
+            parallelFor (0, N-1) .exec (new Loop() {
                 IntVbl thrCount;
-                IntVbl thrMin;
-                IntVbl thrMax;
+                
                 /**
                  * Start method
                  */
                 public void start() {
                     thrCount = threadLocal(num);
-                    thrMin = threadLocal(min);
-                    thrMax = threadLocal(max);
-                 }
+                }
 
                 /**
                  * Run method
                  * @param i 
                  */
                 public void run (int i) {
+                    i++;
+                    // convert int to BigInteger
                     BigInteger bigi = BigInteger.valueOf(i);
-                    
+
+                    // checking if it is a prime
                     if (bigi.isProbablePrime(64)) {
-                        int otherHalf = N - i;
-                        BigInteger bigj = BigInteger.valueOf(otherHalf);
-                        if (bigj.isProbablePrime(64)) {
-                            if (thrMin.item > i) thrMin.item = i;
-                            if (thrMax.item < i) thrMax.item = i;
-                            thrCount.item++;
+
+                        // checking if the next nums are prime that equal n
+                        for (int j = i; i < N; j++) {
+                            BigInteger bigj = BigInteger.valueOf(j);       
+                            if (bigi.isProbablePrime(64)) {
+                                // step 1 check if i and j equal to n
+                                if (i + j == N) {                   
+                                    // step 2 store that num to the array    
+                                    arrs[i-1] = i;
+                                }                            
+                            }  
                         }
                     }
-                    
-                                        
                 }
             });
-            if (num.item == 0) System.out.println("No solution");
-            else if (num.item == 1) {
-                System.out.printf("%d solution\n", num.item);
-                System.out.printf("%d = %d + %d\n", N, min.item, N - min.item);
-            } else {
-                System.out.printf("%d solutions\n", num.item);
-                System.out.printf("%d = %d + %d\n", N, min.item, N - min.item);
-                System.out.printf("%d = %d + %d\n", N, max.item, N - max.item);
-            }
+            for (int i = 0; i < arrs.length; i++) {
+                System.out.println( arrs[i]);
+                
+            }   
         } 
         // Checking the type of the args
-        catch (IllegalArgumentException e) {
-            System.err.println("Argument is not an int. Exiting.");
-            System.exit(1);
-        }
-    }
+  //      catch (IllegalArgumentException e) {
+    //        System.err.println("Argument is not an int. Exiting.");
+      //      System.exit(1);
+//        }
+    //}
 }
