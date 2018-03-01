@@ -11,12 +11,15 @@ import edu.rit.pj2.Loop;
 import edu.rit.pj2.IntParallelForLoop;
 import edu.rit.pj2.Task;
 import edu.rit.pj2.vbl.IntArrayVbl;
+import edu.rit.pj2.vbl.IntVbl;
 import java.math.BigInteger;
 public class Goldbach extends Task{
   
     // Stores all of the prime numbers that equal to the input
-    IntArrayVbl arr;
+    IntVbl num;
+    
 
+    
     /**
      * Main Program
      */
@@ -27,23 +30,25 @@ public class Goldbach extends Task{
             System.exit(1);
         }
 
-        try {
+//        try {
             // even number n
-            int n = Integer.parseInt(args[0]);
+            int N = Integer.parseInt(args[0]);
             // checking for even number
-            if (n % 2 != 0) { 
+            if (N % 2 != 0) { 
                 System.err.println("<n> must be an even number > 4");
                 System.exit(1);
             }
-            arr = new IntArrayVbl(n);        
-            parallelFor (1, n) .exec (new Loop() {
-                IntArrayVbl thrCount;
+            int[] arrs = new int[N];
+            num = new IntVbl.Sum();
+            num.item = 0;
+            parallelFor (0, N-1) .exec (new Loop() {
+                IntVbl thrCount;
                 
                 /**
                  * Start method
                  */
                 public void start() {
-                    thrCount = threadLocal(arr);
+                    thrCount = threadLocal(num);
                 }
 
                 /**
@@ -51,6 +56,7 @@ public class Goldbach extends Task{
                  * @param i 
                  */
                 public void run (int i) {
+                    i++;
                     // convert int to BigInteger
                     BigInteger bigi = BigInteger.valueOf(i);
 
@@ -58,28 +64,28 @@ public class Goldbach extends Task{
                     if (bigi.isProbablePrime(64)) {
 
                         // checking if the next nums are prime that equal n
-                        for (int j = i; i < n; j++) {
+                        for (int j = i; i < N; j++) {
                             BigInteger bigj = BigInteger.valueOf(j);       
                             if (bigi.isProbablePrime(64)) {
                                 // step 1 check if i and j equal to n
-                                if (i + j == n) {                   
+                                if (i + j == N) {                   
                                     // step 2 store that num to the array    
-                                    thrCount.item[i-1] = i;
+                                    arrs[i-1] = i;
                                 }                            
                             }  
                         }
                     }
                 }
             });
-            for (int i = 0; i < arr.item.length; i++) {
-                System.out.println( arr.item[i]);
+            for (int i = 0; i < arrs.length; i++) {
+                System.out.println( arrs[i]);
                 
             }   
         } 
         // Checking the type of the args
-        catch (IllegalArgumentException e) {
-            System.err.println("Argument is not an int. Exiting.");
-            System.exit(1);
-        }
-    }
+  //      catch (IllegalArgumentException e) {
+    //        System.err.println("Argument is not an int. Exiting.");
+      //      System.exit(1);
+//        }
+    //}
 }
