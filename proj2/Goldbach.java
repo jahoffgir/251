@@ -5,7 +5,7 @@
  * is a Goldbach number.
  *
  * @author Jahongir Amirkulov
- * @version 02/26/18
+ * @version 03/01/18
  */
 import edu.rit.pj2.Loop;
 import edu.rit.pj2.IntParallelForLoop;
@@ -41,12 +41,12 @@ public class Goldbach extends Task{
             num = new IntVbl.Sum(0);
             min = new IntVbl.Min(N);
             max = new IntVbl.Max(3);
-                
             
             parallelFor (3, N/2) .exec (new Loop() {
                 IntVbl thrCount;
                 IntVbl thrMin;
                 IntVbl thrMax;
+
                 /**
                  * Start method
                  */
@@ -58,25 +58,31 @@ public class Goldbach extends Task{
 
                 /**
                  * Run method
-                 * @param i 
+                 * @param i - index 
                  */
                 public void run (int i) {
+                    // BigInteger for i
                     BigInteger bigi = BigInteger.valueOf(i);
-                    
+                    // checking if i is prime
                     if (bigi.isProbablePrime(64)) {
-                        int otherHalf = N - i;
-                        BigInteger bigj = BigInteger.valueOf(otherHalf);
+                        // the other half, y
+                        int y = N - i;
+                        BigInteger bigj = BigInteger.valueOf(y);
+                        // check y is prime
                         if (bigj.isProbablePrime(64)) {
+                            // add the min
                             if (thrMin.item > i) thrMin.item = i;
+                            // add the max
                             if (thrMax.item < i) thrMax.item = i;
+                            // increment the count of the solution
                             thrCount.item++;
                         }
-                    }
-                    
-                                        
+                    }                                        
                 }
             });
-            if (num.item == 0) System.out.println("No solution");
+            
+            // printing the statement
+            if (num.item == 0) System.out.println("No solutions");
             else if (num.item == 1) {
                 System.out.printf("%d solution\n", num.item);
                 System.out.printf("%d = %d + %d\n", N, min.item, N - min.item);
