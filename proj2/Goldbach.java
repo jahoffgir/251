@@ -10,12 +10,11 @@
 import edu.rit.pj2.Loop;
 import edu.rit.pj2.IntParallelForLoop;
 import edu.rit.pj2.Task;
-import edu.rit.pj2.vbl.IntArrayVbl;
 import edu.rit.pj2.vbl.IntVbl;
 import java.math.BigInteger;
 public class Goldbach extends Task{
   
-    // Stores all of the prime numbers that equal to the input
+    // Stores the number of solutions, min and the max 
     IntVbl num;
     IntVbl min;
     IntVbl max;
