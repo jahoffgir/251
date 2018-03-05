@@ -5,18 +5,19 @@
  * is a Goldbach number.
  *
  * @author Jahongir Amirkulov
- * @version 02/26/18
+ * @version 03/01/18
  */
-import edu.rit.pj2.*;
+import edu.rit.pj2.Loop;
 import edu.rit.pj2.IntParallelForLoop;
 import edu.rit.pj2.Task;
 import edu.rit.pj2.vbl.IntVbl;
-import edu.rit.pj2.vbl.IntArrayVbl;
 import java.math.BigInteger;
 public class Goldbach extends Task{
   
-    // Stores all of the prime numbers that equal to the input
-    IntArrayVbl arr;
+    // Stores the number of solutions, min and the max 
+    IntVbl num;
+    IntVbl min;
+    IntVbl max;
 
     /**
      * Main Program
@@ -30,51 +31,65 @@ public class Goldbach extends Task{
 
         try {
             // even number n
-            int n = Integer.parseInt(args[0]);
-
+            int N = Integer.parseInt(args[0]);
             // checking for even number
-            if (n % 2 != 0) { 
+            if (N % 2 != 0) { 
                 System.err.println("<n> must be an even number > 4");
                 System.exit(1);
             }
-
-            arr = new IntArrayVbl(n);        
-            parallelFor (1, n) .exec (new Loop() {
-                IntArrayVbl thrCount;
+            num = new IntVbl.Sum(0);
+            min = new IntVbl.Min(N);
+            max = new IntVbl.Max(3);
+            
+            parallelFor (3, N/2) .exec (new Loop() {
+                IntVbl thrCount;
+                IntVbl thrMin;
+                IntVbl thrMax;
 
                 /**
                  * Start method
                  */
                 public void start() {
-                    thrCount = threadLocal(arr);
-                }
+                    thrCount = threadLocal(num);
+                    thrMin = threadLocal(min);
+                    thrMax = threadLocal(max);
+                 }
 
                 /**
                  * Run method
-                 * @param i 
+                 * @param i - index 
                  */
                 public void run (int i) {
-                    // convert int to BigInteger
+                    // BigInteger for i
                     BigInteger bigi = BigInteger.valueOf(i);
-
-                    // checking if it is a prime
+                    // checking if i is prime
                     if (bigi.isProbablePrime(64)) {
-
-                        // checking if the next nums are prime that equal n
-                        for (int j = i; i < n; j++) {
-                            BigInteger bigj = BigInteger.valueOf(j);       
-
-                            if (bigi.isProbablePrime(64)) {
-                                // step 1 check if i and j equal to n
-                                if (i + j == n) {                   
-                                    // step 2 store that num to the array    
-                                    arr.item[i-1] = i;
-                                }                            
-                            }  
+                        // the other half, y
+                        int y = N - i;
+                        BigInteger bigj = BigInteger.valueOf(y);
+                        // check y is prime
+                        if (bigj.isProbablePrime(64)) {
+                            // add the min
+                            if (thrMin.item > i) thrMin.item = i;
+                            // add the max
+                            if (thrMax.item < i) thrMax.item = i;
+                            // increment the count of the solution
+                            thrCount.item++;
                         }
-                    }
+                    }                                        
                 }
             });
+            
+            // printing the statement
+            if (num.item == 0) System.out.println("No solutions");
+            else if (num.item == 1) {
+                System.out.printf("%d solution\n", num.item);
+                System.out.printf("%d = %d + %d\n", N, min.item, N - min.item);
+            } else {
+                System.out.printf("%d solutions\n", num.item);
+                System.out.printf("%d = %d + %d\n", N, min.item, N - min.item);
+                System.out.printf("%d = %d + %d\n", N, max.item, N - max.item);
+            }
         } 
         // Checking the type of the args
         catch (IllegalArgumentException e) {
@@ -83,4 +98,3 @@ public class Goldbach extends Task{
         }
     }
 }
-
