@@ -29,7 +29,41 @@ public class SixQueensServer {
 		}
 		return i;
 	}
+    	/**
+	 * Print an error message and a usage message and terminate.
+	 *
+	 * @param  msg  Message.
+	 */
+	private static void errorUsage
+		(String msg)
+		{
+		System.err.printf ("PasswordCrackServer: %s%n", msg);
+		usage();
+		}
 
+	/**
+	 * Print a usage message and terminate.
+	 */
+	private static void usage()
+		{
+		System.err.println ("Usage: java PasswordCrackServer <host> <port>");
+		System.exit (1);
+		}
+
+	/**
+	 * Print an exception error message and terminate.
+	 *
+	 * @param  exc  Exception.
+	 */
+	private static void error
+		(Exception exc)
+		{
+		System.err.println ("PasswordCrackServer: Exception");
+		exc.printStackTrace (System.err);
+		System.exit (1);
+		}
+
+	}
     
     public static void main(String [] args) {
         // Parse command line arguments.
@@ -50,7 +84,7 @@ public class SixQueensServer {
 				{
 				Socket socket = serversocket.accept();
 				ViewProxy proxy = new ViewProxy (socket);
-				PasswordCrackModel model = new PasswordCrackModel();
+				SixQueensModel model = new SixQueensModel();
 				model.setModelListener (proxy);
 				proxy.setViewListener (model);
 				}
@@ -62,5 +96,4 @@ public class SixQueensServer {
 		}
 
 
-    }
 }
