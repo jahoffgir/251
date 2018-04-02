@@ -29,7 +29,7 @@
  * @author  Alan Kaminsky
  * @version 26-Feb-2018
  */
-public class TicTacToeModel
+public class SixQueensModel
 	implements ViewListener
 	{
 
@@ -48,7 +48,7 @@ public class TicTacToeModel
 	/**
 	 * Construct a new Tic-Tac-Toe model object.
 	 */
-	public TicTacToeModel()
+	public SixQueensModel()
 		{
 		}
 

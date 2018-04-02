@@ -9,8 +9,7 @@ import java.net.Socket;
  * @author  Jahongir Amirkulov
  * @version 04/01/18
  */
-public class TicTacToe
-	{
+public class SixQueens {
 
 	/**
 	 * Main program.
@@ -28,7 +27,7 @@ public class TicTacToe
 			socket.connect (new InetSocketAddress (host, port));
 
 			// Set up view and model proxy.
-			SixOfQueensView view = SixOfQueensView.create (name);
+			SixQueensView view = SixQueensView.create (name);
 			ModelProxy proxy = new ModelProxy (socket);
 			view.setListener (proxy);
 			proxy.setListener (view);
