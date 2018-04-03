@@ -53,7 +53,7 @@ public interface ViewListener
 	 */
 	public void squareChosen
 		(ModelListener view,
-		 int i);
+		 int i, int j);
 
 	/**
 	 * Report that a new game was requested.

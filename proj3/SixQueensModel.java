@@ -48,9 +48,7 @@ public class SixQueensModel
 	/**
 	 * Construct a new Tic-Tac-Toe model object.
 	 */
-	public SixQueensModel()
-		{
-		}
+	public SixQueensModel(){}
 
 // Exported operations.
 

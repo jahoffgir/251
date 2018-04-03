@@ -6,6 +6,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 /**
  * Class SixQueensView provides the user interface for the Six Queens Game.
  *
@@ -54,12 +59,38 @@ public class SixQueensView implements ModelListener {
 		newGameButton = new JButton ("New Game");
 		newGameButton.setFocusable (false);
 		newGameButton.setAlignmentX (0.5f);
-		p1.add (newGameButton);
+        p1.add (newGameButton);
+        board.setListener (new SixQueensJPanelListener()
+			{
+			public void squareClicked (int i, int j)
+				{
+				if (listener != null)
+					listener.squareChosen (SixQueensView.this, i, j);
+				}
+			});
+		newGameButton.addActionListener (new ActionListener()
+			{
+			public void actionPerformed (ActionEvent e)
+				{
+				if (listener != null)
+					listener.newGame (SixQueensView.this);
+				}
+			});
+		frame.addWindowListener (new WindowAdapter()
+			{
+			public void windowClosing (WindowEvent e)
+				{
+				if (listener != null)
+					listener.quit (SixQueensView.this);
+				System.exit (0);
+				}
+			});
 		frame.pack();
 		frame.setVisible (true);
-	}
+    }
+    
     /**
-     * Construct a new Tic-Tac-Toe view object.
+     * Construct a new SixQueensView view object.
     *
     * @param  name  Player's name.
     *
@@ -69,16 +100,17 @@ public class SixQueensView implements ModelListener {
         UIRef uiref = new UIRef();
         onSwingThreadDo (new Runnable() {
             public void run() {
-                uiref.ui = new SixQueensView (name);
+                uiref.ui = new SixQueensView(name);
+                 
             }
         });
         return uiref.ui;
     }
- 
+
     private static class UIRef {
         public SixQueensView ui;
     }
-
+    
     /**
      * Set the view listener.
      *
@@ -111,7 +143,7 @@ public class SixQueensView implements ModelListener {
     public void setMark(int i, Mark mark) {
         onSwingThreadDo (new Runnable() {
             public void run() {
-                board.setMark (i, mark);
+                // board.setMark (i, mark);
             }
         });
     }
@@ -126,7 +158,7 @@ public class SixQueensView implements ModelListener {
             {
             public void run()
                 {
-                board.setWin (i);
+                // board.setWin (i);
                 }
             });
     }

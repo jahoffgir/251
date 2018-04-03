@@ -10,7 +10,6 @@ import java.net.Socket;
  * @version 04/01/18
  */
 public class SixQueens {
-
 	/**
 	 * Main program.
 	 */
@@ -71,7 +70,7 @@ public class SixQueens {
 	 * Print a usage message and terminate.
 	 */
 	private static void usage() {
-		System.err.println ("Usage: java TicTacToe <host> <port> <name>");
+		System.err.println ("Usage: java SixQueens <host> <port> <name>");
 		System.exit (1);
 	}
 
@@ -81,7 +80,7 @@ public class SixQueens {
 	 * @param  exc  Exception.
 	 */
 	private static void error (IOException exc) {
-		System.err.println ("TicTacToe: I/O error");
+		System.err.println ("SixQueens: I/O error");
 		exc.printStackTrace (System.err);
 		System.exit (1);
 	}

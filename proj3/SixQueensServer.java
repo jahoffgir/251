@@ -79,7 +79,7 @@ public class SixQueensServer {
 	 * @param  msg  Message.
 	 */
 	private static void errorUsage (String msg) {
-		System.err.printf ("TicTacToeServer: %s%n", msg);
+		System.err.printf ("SixQueensServer: %s%n", msg);
 		usage();
 	}
 
@@ -87,7 +87,7 @@ public class SixQueensServer {
 	 * Print a usage message and terminate.
 	 */
 	private static void usage() {
-		System.err.println ("Usage: java TicTacToeServer <host> <port>");
+		System.err.println ("Usage: java SixQueensServer <host> <port>");
 		System.exit (1);
 	}
 
