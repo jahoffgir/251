@@ -117,12 +117,13 @@ public class ModelProxy
 	 */
 	public void squareChosen
 		(ModelListener view,
-		 int i)
+		 int i, int j)
 		{
 		try
 			{
 			out.writeByte ('S');
 			out.writeByte (i);
+			out.writeByte (j);
 			out.flush();
 			}
 		catch (IOException exc)

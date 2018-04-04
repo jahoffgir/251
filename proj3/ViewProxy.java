@@ -280,7 +280,7 @@ public class ViewProxy
 		 */
 		public void run()
 			{
-			int op, i;
+			int op, i, j;
 			String name;
 			try
 				{
@@ -295,7 +295,8 @@ public class ViewProxy
 							break;
 						case 'S':
 							i = in.readByte();
-							listener.squareChosen (ViewProxy.this, i);
+							j = in.readByte();
+							listener.squareChosen (ViewProxy.this, i, j);
 							break;
 						case 'G':
 							listener.newGame (ViewProxy.this);

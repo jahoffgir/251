@@ -84,7 +84,7 @@ public class SixQueensModel
 	 */
 	public synchronized void squareChosen
 		(ModelListener view,
-		 int i)
+		 int i, int j)
 		{
 		if (view != turn || board.getMark (i) != Mark.BLANK)
 			return;
