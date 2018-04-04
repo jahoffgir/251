@@ -39,10 +39,10 @@ public class BoardState
 	/**
 	 * Number of squares on the board.
 	 */
-	public static final int N_SQUARES = 9;
+	public static final int N_SQUARES = 36;
 
-// Hidden data members.
-
+	// Hidden data members.
+	
 	private Mark[] mark;    // Mark on each square
 	private boolean[] win;  // True for each square in a winning combination
 
@@ -78,8 +78,11 @@ public class BoardState
 		{
 		Arrays.fill (mark, Mark.BLANK);
 		Arrays.fill (win, false);
-		}
+	}
 
+	public void setQueen(int i, int j, boolean set) {
+		
+	}
 	/**
 	 * Set the mark on the given square.
 	 *

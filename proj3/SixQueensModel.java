@@ -89,9 +89,9 @@ public class SixQueensModel
 		if (view != turn || board.getMark (i) != Mark.BLANK)
 			return;
 		else if (view == view1)
-			setMark (view1, i, Mark.X);
+			setQueen(view1, i, j, true);
 		else
-			setMark (view2, i, Mark.O);
+			setQueen(view2, i, Mark.O);
 		}
 
 	/**
@@ -150,6 +150,17 @@ public class SixQueensModel
 		view2.otherTurn (name1);
 		}
 
+	/**
+	 * Set a mark on the board and switch turns.
+	 *
+	 * @param  curr  View object whose turn it is.
+	 * @param  i     Square index.
+	 * @param  j     Square index.
+	 */
+	public void setQueen(ModelListener curr,int i, int j, boolean q) {
+		board.setQueen(i, j, q);
+		//TODO: Write the rest of the code
+	}
 	/**
 	 * Set a mark on the board and switch turns.
 	 *

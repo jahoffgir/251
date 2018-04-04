@@ -37,14 +37,14 @@ public enum Mark
 	BLANK,
 
 	/**
-	 * Square is marked X.
+	 * Square is marked with queen.
 	 */
-	X,
+	Q,
 
 	/**
 	 * Square is marked O.
 	 */
-	O;
+	I;
 
 	/**
 	 * Convert the given ordinal to an enumeral.
@@ -62,8 +62,8 @@ public enum Mark
 		switch (ordinal)
 			{
 			case 0: return BLANK;
-			case 1: return X;
-			case 2: return O;
+			case 1: return Q;
+			case 2: return I;
 			default:
 				throw new IllegalArgumentException (String.format
 					("Mark.valueOf(): ordinal = %d illegal", ordinal));
