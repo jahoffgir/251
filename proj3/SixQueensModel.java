@@ -86,12 +86,12 @@ public class SixQueensModel
 		(ModelListener view,
 		 int i, int j)
 		{
-		if (view != turn || board.getMark(i, j) != Mark.BLANK)
+		if (view != turn)
 			return;
 		else if (view == view1)
-			setQueen(view1, i, j, Mark.Q);
+			setQueen(view1, i, j);
 		else
-			setQueen(view2, i, j, Mark.Q);
+			setQueen(view2, i, j);
 		}
 
 	/**
@@ -149,6 +149,11 @@ public class SixQueensModel
 		view1.yourTurn();
 		view2.otherTurn (name1);
 		}
+	public void setVisible(ModelListener curr, int i, int j) {
+		board.setVisible(i, j, Mark.I);
+		view1.setVisible(i, j, Mark.I);
+		view2.setVisible(i, j, Mark.I);
+	}
 
 	/**
 	 * Set a mark on the board and switch turns.
@@ -157,10 +162,10 @@ public class SixQueensModel
 	 * @param  i     Square index.
 	 * @param  j     Square index.
 	 */
-	public void setQueen(ModelListener curr,int i, int j, Mark mark) {
-		board.setQueen(i, j, mark);
-		view1.setQueen(i, j, mark);
-		view2.setQueen(i, j, mark);
+	public void setQueen(ModelListener curr,int i, int j) {
+		board.setQueen(i, j, Mark.Q);
+		view1.setQueen(i, j, Mark.Q);
+		view2.setQueen(i, j, Mark.Q);
 		int win = board.checkWin();
 		// Update game state and inform the players.
 		if (win != -1) {

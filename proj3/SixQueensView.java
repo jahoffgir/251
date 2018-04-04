@@ -124,6 +124,21 @@ public class SixQueensView implements ModelListener {
         });
     }
 
+    public void setQueen(int i, int j, Mark mark) {
+        onSwingThreadDo (new Runnable() {
+            public void run() {   
+                board.setQueen(i, j, true);
+            }
+        });
+    }
+    public void setVisible(int i, int j, Mark mark) {
+        onSwingThreadDo (new Runnable() {
+            public void run() {
+                board.setVisible(i, j, false);
+            }
+        });
+    }
+
     /**
      * Report that a new game was started.
      */

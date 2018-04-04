@@ -51,7 +51,7 @@ public class BoardState
 	 * Construct a new board state object.
 	 */
 	public BoardState() {
-		mark = new Mark [N_SQUARES][N_SQUARES];
+		mark = new Mark[N_SQUARES][N_SQUARES];
 		clear();
 	}
 
@@ -61,23 +61,28 @@ public class BoardState
 	 * Clear this board state object.
 	 */
 	public void clear() {
-		Arrays.fill (mark, Mark.BLANK);
+		for (int i = 0; i < N_SQUARES; i++) {
+			Arrays.fill (mark[i], Mark.BLANK);
+		}
+		
 	}
 
 	public void setQueen(int i, int j, Mark mark) {
 		if (this.mark[i][j] != Mark.I) {
 			setMark(i, j, mark);
-			setVisible(i, j, Mark.I);
+			// setVisible(i, j, Mark.I);
 		}
 	}
 	public void setVisible(int i, int j, Mark mark) {
-		for (int x = 0; x < N_SQUARES; i++) {
-			if (x != j)
-				this.mark[x][j] = mark;
-			if (x != i)
-				this.mark[i][x] = mark;
+		
+		// for (int x = 0; x < N_SQUARES; x++) {
+		// 	if (x != j)
+		
+		// 		this.mark[x][j] = mark;
+		// 	if (x != i)
+		// 		this.mark[i][x] = mark;
 			
-		}
+		// }
 	}
 	/**
 	 * Set the mark on the given square.
@@ -96,10 +101,9 @@ public class BoardState
 	 *
 	 * @return  Mark.
 	 */
-	public Mark getMark(int i, int j)
-		{
+	public Mark getMark(int i, int j) {
 		return this.mark[i][j];
-		}
+	}
 
 	/**
 	 * Determine if the marks on the board are a winning combination for the
@@ -147,18 +151,7 @@ public class BoardState
 	// 	return win[i];
 	// 	}
 
-	/**
-	 * Determine if the marks on the board are a draw.
-	 *
-	 * @return  True if draw, false if not.
-	 */
-	public boolean checkDraw()
-		{
-		for (int i = 0; i < N_SQUARES; ++ i)
-			if (mark[i] == Mark.BLANK)
-				return false;
-		return true;
-		}
+
 
 	}
 

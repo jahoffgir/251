@@ -46,6 +46,13 @@ public interface ModelListener
 	 * 
 	 */
 	public void setQueen(int i, int j, Mark mark);
+
+	/**
+	 * 
+	 * 
+	 */
+	public void setVisible(int i, int j, Mark mark);
+
 	/**
 	 * Report that a mark was placed on a square.
 	 *
