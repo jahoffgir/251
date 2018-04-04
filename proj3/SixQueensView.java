@@ -128,13 +128,14 @@ public class SixQueensView implements ModelListener {
         onSwingThreadDo (new Runnable() {
             public void run() {   
                 board.setQueen(i, j, true);
+
             }
         });
     }
-    public void setVisible(int i, int j, Mark mark) {
+    public void setVisible(int i, int j, boolean v) {
         onSwingThreadDo (new Runnable() {
             public void run() {
-                board.setVisible(i, j, false);
+                board.setVisible(i, j, v);
             }
         });
     }
@@ -149,35 +150,6 @@ public class SixQueensView implements ModelListener {
             }
         });
     }
-    /**
-     * Report that a mark was placed on a square.
-    *
-    * @param  i     Square index.
-    * @param  mark  Mark.
-    */
-    public void setMark(int i, Mark mark) {
-        onSwingThreadDo (new Runnable() {
-            public void run() {
-                // board.setMark (i, mark);
-            }
-        });
-    }
- 
-    /**
-     * Report a winning combination.
-    *
-    * @param  i  Winning combination number.
-    */
-    public void setWin(int i) {
-        onSwingThreadDo (new Runnable()
-            {
-            public void run()
-                {
-                // board.setWin (i);
-                }
-            });
-    }
-
     /**
      * Report that the player is waiting for a partner.
     */
@@ -240,18 +212,6 @@ public class SixQueensView implements ModelListener {
                 }
         });
     }
-
-     /**
-      * Report that the game is a draw.
-      */
-    public void draw() {
-        onSwingThreadDo (new Runnable() {
-             public void run() {
-                 messageField.setText ("Draw");
-                 newGameButton.setEnabled (true);
-                 }
-             });
-        }
 
     /**
      * Report that a player quit.

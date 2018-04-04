@@ -80,28 +80,22 @@ public class ViewProxy
 	 *
 	 * @param  listener  Model listener.
 	 */
-	public void setListener
-		(ViewListener listener)
-		{
+	public void setListener(ViewListener listener) {
 		this.listener = listener;
 		new ReaderThread() .start();
-		}
+	}
 
 	/**
 	 * Report that a new game was started.
 	 */
-	public void newGame()
-		{
-		try
-			{
+	public void newGame() {
+		try {
 			out.writeByte ('N');
 			out.flush();
-			}
-		catch (IOException exc)
-			{
+		} catch (IOException exc) {
 			error (exc);
-			}
 		}
+	}
 	public void setQueen(int i, int j, Mark mark) {
 		try {
 			out.writeByte('E');
@@ -113,111 +107,56 @@ public class ViewProxy
 			error (exc);
 		}
 	}
-	public void setVisible(int i, int j, Mark mark) {
+	public void setVisible(int i, int j, boolean v) {
 		try {
 			out.writeByte('V');
 			out.writeByte(i);
 			out.writeByte(j);
-			out.writeByte(mark.ordinal());
+			out.writeBoolean(v); // TODO: Make sure this is valid
 			out.flush();
 		} catch (IOException exc) {
 			error (exc);
 		}
 	}
 	/**
-	 * Report that a mark was placed on a square.
-	 *
-	 * @param  i     Square index.
-	 * @param  mark  Mark.
-	 */
-	public void setMark
-		(int i,
-		 Mark mark)
-		{
-		try
-			{
-			out.writeByte ('M');
-			out.writeByte (i);
-			out.writeByte (mark.ordinal());
-			out.flush();
-			}
-		catch (IOException exc)
-			{
-			error (exc);
-			}
-		}
-
-	/**
-	 * Report a winning combination.
-	 *
-	 * @param  i  Winning combination number.
-	 */
-	public void setWin
-		(int i)
-		{
-		try
-			{
-			out.writeByte ('C');
-			out.writeByte (i);
-			out.flush();
-			}
-		catch (IOException exc)
-			{
-			error (exc);
-			}
-		}
-
-	/**
 	 * Report that the player is waiting for a partner.
 	 */
-	public void waitingForPartner()
-		{
-		try
-			{
+	public void waitingForPartner() {
+		try {
 			out.writeByte ('P');
 			out.flush();
-			}
-		catch (IOException exc)
-			{
-			error (exc);
-			}
 		}
+		catch (IOException exc) {
+			error (exc);
+		}
+	}
 
 	/**
 	 * Report that it's the player's turn.
 	 */
-	public void yourTurn()
-		{
-		try
-			{
+	public void yourTurn() {
+		try {
 			out.writeByte ('T');
 			out.flush();
-			}
-		catch (IOException exc)
-			{
+		} catch (IOException exc) {
 			error (exc);
-			}
 		}
+	}
 
 	/**
 	 * Report that it's the other player's turn.
 	 *
 	 * @param  name  Other player's name.
 	 */
-	public void otherTurn
-		(String name)
-		{
-		try
-			{
+	public void otherTurn(String name) {
+		try {
 			out.writeByte ('U');
 			out.writeUTF (name);
 			out.flush();
-			}
-		catch (IOException exc)
-			{
+		} catch (IOException exc) {
 			error (exc);
-			}
 		}
+	}
 
 	/**
 	 * Report that the player wins.

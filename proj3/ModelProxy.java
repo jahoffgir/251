@@ -97,17 +97,15 @@ public class ModelProxy
 		(ModelListener view,
 		 String name)
 		{
-		try
-			{
+		try {
 			out.writeByte ('J');
 			out.writeUTF (name);
 			out.flush();
-			}
-		catch (IOException exc)
-			{
-			error (exc);
-			}
 		}
+		catch (IOException exc) {
+			error (exc);
+		}
+	}
 
 	/**
 	 * Report that a square was chosen.
@@ -126,11 +124,10 @@ public class ModelProxy
 			out.writeByte (j);
 			out.flush();
 			}
-		catch (IOException exc)
-			{
+		catch (IOException exc) {
 			error (exc);
-			}
 		}
+	}
 
 	/**
 	 * Report that a new game was requested.
@@ -185,6 +182,7 @@ public class ModelProxy
 		public void run()
 			{
 			int op, i, j;
+			boolean v;
 			Mark mark;
 			String name;
 			try
@@ -206,18 +204,8 @@ public class ModelProxy
 						case 'V':
 							i = in.readByte();
 							j = in.readByte();
-							mark = Mark.valueOf (in.readByte());
-							listener.setVisible(i, j, mark);
-							break;
-						
-						case 'M':
-							i = in.readByte();
-							mark = Mark.valueOf (in.readByte());
-							listener.setMark (i, mark);
-							break;
-						case 'C':
-							i = in.readByte();
-							listener.setWin (i);
+							v = in.readBoolean();
+							listener.setVisible(i, j, v);
 							break;
 						case 'P':
 							listener.waitingForPartner();
@@ -265,30 +253,23 @@ public class ModelProxy
 			}
 		}
 
-// Hidden operations.
-
+	// Hidden operations.
 	/**
 	 * Print an error message and terminate the program.
 	 *
 	 * @param  msg  Message.
 	 */
-	private static void error
-		(String msg)
-		{
+	private static void error(String msg) {
 		System.err.printf ("ModelProxy: %s%n", msg);
 		System.exit (1);
-		}
+	}
 
 	/**
 	 * Print an I/O error message and terminate the program.
 	 */
-	private static void error
-		(IOException exc)
-		{
+	private static void error(IOException exc) {
 		System.err.println ("ModelProxy: I/O error");
 		exc.printStackTrace (System.err);
 		System.exit (1);
-		}
-
 	}
-
+}

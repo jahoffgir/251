@@ -25,6 +25,8 @@
 
 import java.util.Arrays;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
+
 /**
  * Class BoardState encapsulates the state of a Tic-Tac-Toe game board.
  *
@@ -76,13 +78,43 @@ public class BoardState
 	public void setVisible(int i, int j, Mark mark) {
 		
 		for (int x = 0; x < N_SQUARES; x++) {
-			if (x != j)
-		
-				this.mark[x][j] = mark;
 			if (x != i)
+				this.mark[x][j] = mark;
+		}	
+		// }
+		for (int x = 0; x < N_SQUARES; x++) {
+			if (x != j)
 				this.mark[i][x] = mark;
-			
 		}
+		// int negRow = i;
+		// int negCol = j;
+		// int posRow = i;
+		// int posCol = j;
+
+		// for (int x = 0; x < i; x++) {
+		// 	System.out.println(negRow);
+		// 	System.out.println(negCol);
+		// 	negRow--;
+		// 	negCol--;
+		// 	this.mark[negRow][negCol] = mark;
+		// 	System.out.println(posRow);
+		// 	System.out.println(posCol);
+		// 	posRow--;
+		// 	posCol++;
+		// 	this.mark[posRow][posCol] = mark;
+		// }
+		// negRow = i;
+		// negCol = j;
+		// posRow = i;
+		// posCol = j;
+		// for (int y = 0; y < j; y++) {
+		// 	negRow++;
+		// 	negCol++;
+		// 	this.mark[negRow][negCol] = mark;
+		// 	posRow++;
+		// 	posCol--;
+		// 	this.mark[posRow][posCol] = mark;
+		// }
 	}
 	/**
 	 * Set the mark on the given square.
@@ -120,6 +152,16 @@ public class BoardState
 					return -1;
 			}
 		return 1;
+	}
+	public static void main(String [] args) {
+		BoardState bs = new BoardState();
+
+		bs.setQueen(0, 0, Mark.Q);
+
+		for (int i = 0; i < N_SQUARES; i++)
+			for (int j = 0; j < N_SQUARES; j++) {
+				System.out.println(bs.getMark(i, j));
+			}
 	}
 }
 

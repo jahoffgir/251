@@ -43,33 +43,18 @@ public interface ModelListener
 
 	/**
 	 * 
+	 * Report that the queen was set
 	 * 
 	 */
 	public void setQueen(int i, int j, Mark mark);
 
 	/**
 	 * 
+	 * Report that a cell was set visible
 	 * 
 	 */
-	public void setVisible(int i, int j, Mark mark);
+	public void setVisible(int i, int j, boolean v);
 
-	/**
-	 * Report that a mark was placed on a square.
-	 *
-	 * @param  i     Square index.
-	 * @param  mark  Mark.
-	 */
-	public void setMark
-		(int i,
-		 Mark mark);
-
-	/**
-	 * Report a winning combination.
-	 *
-	 * @param  i  Winning combination number.
-	 */
-	public void setWin
-		(int i);
 
 	/**
 	 * Report that the player is waiting for a partner.
@@ -107,5 +92,5 @@ public interface ModelListener
 	 */
 	public void quit();
 
-	}
+}
 

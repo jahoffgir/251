@@ -149,10 +149,17 @@ public class SixQueensModel
 		view1.yourTurn();
 		view2.otherTurn (name1);
 		}
+
 	public void setVisible(ModelListener curr, int i, int j) {
 		board.setVisible(i, j, Mark.I);
-		view1.setVisible(i, j, Mark.I);
-		view2.setVisible(i, j, Mark.I);
+		for (int a = 0; a < BoardState.N_SQUARES; a++) {
+			for (int b = 0; b < BoardState.N_SQUARES; b++) {
+				if (board.getMark(a, b) == Mark.I) {
+					view1.setVisible(a, b, false);
+					view2.setVisible(a, b, false);
+				}
+			}	
+		}	
 	}
 
 	/**
@@ -166,6 +173,7 @@ public class SixQueensModel
 		board.setQueen(i, j, Mark.Q);
 		view1.setQueen(i, j, Mark.Q);
 		view2.setQueen(i, j, Mark.Q);
+		this.setVisible(curr, i, j);
 		int win = board.checkWin();
 		// Update game state and inform the players.
 		if (win != -1) {
@@ -191,59 +199,6 @@ public class SixQueensModel
 			}
 		}
 	}
-	/**
-	 * Set a mark on the board and switch turns.
-	 *
-	 * @param  curr  View object whose turn it is.
-	 * @param  i     Square index.
-	 * @param  mark  Mark.
-	 */
-	// private void setMark
-	// 	(ModelListener curr,
-	// 	 int i,
-	// 	 Mark mark)
-	// 	{
-	// 	// Set the mark and inform the players.
-	// 	board.setMark (i, mark);
-	// 	view1.setMark (i, mark);
-	// 	view2.setMark (i, mark);
 
-	// 	// Check for a winning combination.
-	// 	int win = board.checkWin();
-
-	// 	// Update game state and inform the players.
-	// 	if (win != -1) {
-	// 		// Current player wins.
-	// 		turn = null;
-	// 		board.setWin (win);
-	// 		view1.setWin (win);
-	// 		view2.setWin (win);
-	// 		if (curr == view1)
-	// 			{
-	// 			view1.youWin();
-	// 			view2.otherWin (name1);
-	// 			}
-	// 		else
-	// 			{
-	// 			view1.otherWin (name2);
-	// 			view2.youWin();
-	// 			}
-	// 	} else {
-	// 		// No win or draw yet.
-	// 		if (curr == view1)
-	// 			{
-	// 			turn = view2;
-	// 			view1.otherTurn (name2);
-	// 			view2.yourTurn();
-	// 			}
-	// 		else
-	// 			{
-	// 			turn = view1;
-	// 			view1.yourTurn();
-	// 			view2.otherTurn (name1);
-	// 			}
-	// 		}
-	// 	}
-
-	}
+}
 
