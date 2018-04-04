@@ -36,18 +36,16 @@ import java.net.Socket;
  * @author  Alan Kaminsky
  * @version 26-Feb-2018
  */
-public class ViewProxy
-	implements ModelListener
-	{
+public class ViewProxy implements ModelListener {
 
-// Hidden data members.
+	// Hidden data members.
 
 	private Socket socket;
 	private DataOutputStream out;
 	private DataInputStream in;
 	private ViewListener listener;
 
-// Exported constructors.
+	// Exported constructors.
 
 	/**
 	 * Construct a new view proxy.
@@ -57,23 +55,17 @@ public class ViewProxy
 	 * @exception  IOException
 	 *     Thrown if an I/O error occurred.
 	 */
-	public ViewProxy
-		(Socket socket)
-		{
-		try
-			{
+	public ViewProxy(Socket socket) {
+		try {
 			this.socket = socket;
 			socket.setTcpNoDelay (true);
 			out = new DataOutputStream (socket.getOutputStream());
 			in = new DataInputStream (socket.getInputStream());
-			}
-		catch (IOException exc)
-			{
+		} catch (IOException exc) {
 			error (exc);
-			}
 		}
-
-// Exported operations.
+	}
+	// Exported operations.
 
 	/**
 	 * Set the view listener object for this view proxy.
@@ -107,6 +99,7 @@ public class ViewProxy
 			error (exc);
 		}
 	}
+
 	public void setVisible(int i, int j, boolean v) {
 		try {
 			out.writeByte('V');
@@ -118,6 +111,7 @@ public class ViewProxy
 			error (exc);
 		}
 	}
+
 	/**
 	 * Report that the player is waiting for a partner.
 	 */
@@ -179,37 +173,28 @@ public class ViewProxy
 	 *
 	 * @param  name  Other player's name.
 	 */
-	public void otherWin
-		(String name)
-		{
-		try
-			{
+	public void otherWin(String name) {
+		try {
 			out.writeByte ('X');
 			out.writeUTF (name);
 			out.flush();
-			}
-		catch (IOException exc)
-			{
+		} catch (IOException exc) {
 			error (exc);
-			}
 		}
+	}
 
 
 	/**
 	 * Report that a player quit.
 	 */
-	public void quit()
-		{
-		try
-			{
+	public void quit() {
+		try {
 			out.writeByte ('Q');
 			out.flush();
-			}
-		catch (IOException exc)
-			{
+		} catch (IOException exc) {
 			error (exc);
-			}
 		}
+	}
 
 // Hidden helper classes.
 
