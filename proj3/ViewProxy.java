@@ -102,7 +102,17 @@ public class ViewProxy
 			error (exc);
 			}
 		}
-
+	public void setQueen(int i, int j, Mark mark) {
+		try {
+			out.writeByte('E');
+			out.writeByte(i);
+			out.writeByte(j);
+			out.writeByte(mark.ordinal());
+			out.flush();
+		} catch (IOException exc) {
+			error (exc);
+		}
+	}
 	/**
 	 * Report that a mark was placed on a square.
 	 *
@@ -234,21 +244,6 @@ public class ViewProxy
 			}
 		}
 
-	/**
-	 * Report that the game is a draw.
-	 */
-	public void draw()
-		{
-		try
-			{
-			out.writeByte ('D');
-			out.flush();
-			}
-		catch (IOException exc)
-			{
-			error (exc);
-			}
-		}
 
 	/**
 	 * Report that a player quit.

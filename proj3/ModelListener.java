@@ -40,6 +40,12 @@ public interface ModelListener
 	 */
 	public void newGame();
 
+
+	/**
+	 * 
+	 * 
+	 */
+	public void setQueen(int i, int j, Mark mark);
 	/**
 	 * Report that a mark was placed on a square.
 	 *
@@ -88,11 +94,6 @@ public interface ModelListener
 	 */
 	public void otherWin
 		(String name);
-
-	/**
-	 * Report that the game is a draw.
-	 */
-	public void draw();
 
 	/**
 	 * Report that a player quit.

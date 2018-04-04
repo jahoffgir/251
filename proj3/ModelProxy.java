@@ -184,7 +184,7 @@ public class ModelProxy
 		 */
 		public void run()
 			{
-			int op, i;
+			int op, i, j;
 			Mark mark;
 			String name;
 			try
@@ -196,6 +196,12 @@ public class ModelProxy
 						{
 						case 'N':
 							listener.newGame();
+							break;
+						case 'E':
+							i = in.readByte();
+							j = in.readByte();
+							mark = Mark.valueOf (in.readByte());
+							listener.setQueen(i, j, mark);
 							break;
 						case 'M':
 							i = in.readByte();
@@ -222,9 +228,6 @@ public class ModelProxy
 						case 'X':
 							name = in.readUTF();
 							listener.otherWin (name);
-							break;
-						case 'D':
-							listener.draw();
 							break;
 						case 'Q':
 							listener.quit();

@@ -39,49 +39,45 @@ public class BoardState
 	/**
 	 * Number of squares on the board.
 	 */
-	public static final int N_SQUARES = 36;
+	public static final int N_SQUARES = 6;
 
 	// Hidden data members.
 	
-	private Mark[] mark;    // Mark on each square
-	private boolean[] win;  // True for each square in a winning combination
-
-	// Table of indexes for winning combinations.
-	private static final int[][] winCombo = new int[][]
-		{
-			// Horizontals
-			{ 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 },
-			// Verticals
-			{ 0, 3, 6 }, { 1, 4, 7 }, { 2, 5, 8 },
-			// Diagonals
-			{ 0, 4, 8 }, { 2, 4, 6 }
-		};
+	private Mark[][] mark;    // Mark on each square
 
 // Exported constructors.
 
 	/**
 	 * Construct a new board state object.
 	 */
-	public BoardState()
-		{
-		mark = new Mark [N_SQUARES];
-		win = new boolean [N_SQUARES];
+	public BoardState() {
+		mark = new Mark [N_SQUARES][N_SQUARES];
 		clear();
-		}
+	}
 
 // Exported operations.
 
 	/**
 	 * Clear this board state object.
 	 */
-	public void clear()
-		{
+	public void clear() {
 		Arrays.fill (mark, Mark.BLANK);
-		Arrays.fill (win, false);
 	}
 
-	public void setQueen(int i, int j, boolean set) {
-		
+	public void setQueen(int i, int j, Mark mark) {
+		if (this.mark[i][j] != Mark.I) {
+			setMark(i, j, mark);
+			setVisible(i, j, Mark.I);
+		}
+	}
+	public void setVisible(int i, int j, Mark mark) {
+		for (int x = 0; x < N_SQUARES; i++) {
+			if (x != j)
+				this.mark[x][j] = mark;
+			if (x != i)
+				this.mark[i][x] = mark;
+			
+		}
 	}
 	/**
 	 * Set the mark on the given square.
@@ -89,12 +85,9 @@ public class BoardState
 	 * @param  i     Square index.
 	 * @param  mark  Mark.
 	 */
-	public void setMark
-		(int i,
-		 Mark mark)
-		{
-		this.mark[i] = mark;
-		}
+	public void setMark(int i, int j, Mark mark) {
+		this.mark[i][j] = mark;
+	}
 
 	/**
 	 * Get the mark on the given square.
@@ -103,10 +96,9 @@ public class BoardState
 	 *
 	 * @return  Mark.
 	 */
-	public Mark getMark
-		(int i)
+	public Mark getMark(int i, int j)
 		{
-		return this.mark[i];
+		return this.mark[i][j];
 		}
 
 	/**
@@ -117,16 +109,14 @@ public class BoardState
 	 *
 	 * @return  Winning combination number if the player wins, &minus;1 if not.
 	 */
-	public int checkWin
-		(Mark player)
-		{
-		for (int i = 0; i < winCombo.length; ++ i)
-			if (mark[winCombo[i][0]] == player &&
-				mark[winCombo[i][1]] == player &&
-				mark[winCombo[i][2]] == player)
-					return i;
-		return -1;
-		}
+	public int checkWin() {
+		for (int i = 0; i < N_SQUARES; i++)
+			for (int j = 0; j < N_SQUARES; j++) {
+				if (mark[i][j] == Mark.BLANK)
+					return -1;
+			}
+		return 1;
+	}
 
 	/**
 	 * Set a winning combination.
@@ -135,13 +125,13 @@ public class BoardState
 	 *
 	 * @see  #checkWin(Mark)
 	 */
-	public void setWin
-		(int i)
-		{
-		win[winCombo[i][0]] =
-		win[winCombo[i][1]] =
-		win[winCombo[i][2]] = true;
-		}
+	// public void setWin
+	// 	(int i)
+	// 	{
+	// 	win[winCombo[i][0]] =
+	// 	win[winCombo[i][1]] =
+	// 	win[winCombo[i][2]] = true;
+	// 	}
 
 	/**
 	 * Check whether the given square is part of a winning combination.
@@ -151,11 +141,11 @@ public class BoardState
 	 * @return  True if square <TT>i</TT> is part of a winning combination,
 	 *          false if not.
 	 */
-	public boolean getWin
-		(int i)
-		{
-		return win[i];
-		}
+	// public boolean getWin
+	// 	(int i)
+	// 	{
+	// 	return win[i];
+	// 	}
 
 	/**
 	 * Determine if the marks on the board are a draw.

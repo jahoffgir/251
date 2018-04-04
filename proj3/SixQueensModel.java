@@ -86,12 +86,12 @@ public class SixQueensModel
 		(ModelListener view,
 		 int i, int j)
 		{
-		if (view != turn || board.getMark (i) != Mark.BLANK)
+		if (view != turn || board.getMark(i, j) != Mark.BLANK)
 			return;
 		else if (view == view1)
-			setQueen(view1, i, j, true);
+			setQueen(view1, i, j, Mark.Q);
 		else
-			setQueen(view2, i, Mark.O);
+			setQueen(view2, i, j, Mark.Q);
 		}
 
 	/**
@@ -157,9 +157,37 @@ public class SixQueensModel
 	 * @param  i     Square index.
 	 * @param  j     Square index.
 	 */
-	public void setQueen(ModelListener curr,int i, int j, boolean q) {
-		board.setQueen(i, j, q);
-		//TODO: Write the rest of the code
+	public void setQueen(ModelListener curr,int i, int j, Mark mark) {
+		board.setQueen(i, j, mark);
+		view1.setQueen(i, j, mark);
+		view2.setQueen(i, j, mark);
+		int win = board.checkWin();
+		// Update game state and inform the players.
+		if (win != -1) {
+			// Current player wins.
+			turn = null;
+			// board.setWin (win);
+			// view1.setWin (win);
+			// view2.setWin (win);
+			if (curr == view1){
+				view1.youWin();
+				view2.otherWin (name1);
+			} else {
+				view1.otherWin (name2);
+				view2.youWin();
+			}
+		} else {
+			// No win or draw yet.
+			if (curr == view1) {
+				turn = view2;
+				view1.otherTurn (name2);
+				view2.yourTurn();
+			} else {
+				turn = view1;
+				view1.yourTurn();
+				view2.otherTurn (name1);
+			}
+		}
 	}
 	/**
 	 * Set a mark on the board and switch turns.
@@ -168,62 +196,52 @@ public class SixQueensModel
 	 * @param  i     Square index.
 	 * @param  mark  Mark.
 	 */
-	private void setMark
-		(ModelListener curr,
-		 int i,
-		 Mark mark)
-		{
-		// Set the mark and inform the players.
-		board.setMark (i, mark);
-		view1.setMark (i, mark);
-		view2.setMark (i, mark);
+	// private void setMark
+	// 	(ModelListener curr,
+	// 	 int i,
+	// 	 Mark mark)
+	// 	{
+	// 	// Set the mark and inform the players.
+	// 	board.setMark (i, mark);
+	// 	view1.setMark (i, mark);
+	// 	view2.setMark (i, mark);
 
-		// Check for a winning combination.
-		int win = board.checkWin (mark);
+	// 	// Check for a winning combination.
+	// 	int win = board.checkWin();
 
-		// Update game state and inform the players.
-		if (win != -1)
-			{
-			// Current player wins.
-			turn = null;
-			board.setWin (win);
-			view1.setWin (win);
-			view2.setWin (win);
-			if (curr == view1)
-				{
-				view1.youWin();
-				view2.otherWin (name1);
-				}
-			else
-				{
-				view1.otherWin (name2);
-				view2.youWin();
-				}
-			}
-		else if (board.checkDraw())
-			{
-			// Game is a draw.
-			turn = null;
-			view1.draw();
-			view2.draw();
-			}
-		else
-			{
-			// No win or draw yet.
-			if (curr == view1)
-				{
-				turn = view2;
-				view1.otherTurn (name2);
-				view2.yourTurn();
-				}
-			else
-				{
-				turn = view1;
-				view1.yourTurn();
-				view2.otherTurn (name1);
-				}
-			}
-		}
+	// 	// Update game state and inform the players.
+	// 	if (win != -1) {
+	// 		// Current player wins.
+	// 		turn = null;
+	// 		board.setWin (win);
+	// 		view1.setWin (win);
+	// 		view2.setWin (win);
+	// 		if (curr == view1)
+	// 			{
+	// 			view1.youWin();
+	// 			view2.otherWin (name1);
+	// 			}
+	// 		else
+	// 			{
+	// 			view1.otherWin (name2);
+	// 			view2.youWin();
+	// 			}
+	// 	} else {
+	// 		// No win or draw yet.
+	// 		if (curr == view1)
+	// 			{
+	// 			turn = view2;
+	// 			view1.otherTurn (name2);
+	// 			view2.yourTurn();
+	// 			}
+	// 		else
+	// 			{
+	// 			turn = view1;
+	// 			view1.yourTurn();
+	// 			view2.otherTurn (name1);
+	// 			}
+	// 		}
+	// 	}
 
 	}
 

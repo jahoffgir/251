@@ -42,7 +42,7 @@ public enum Mark
 	Q,
 
 	/**
-	 * Square is marked O.
+	 * Square is marked Invisible.
 	 */
 	I;
 
