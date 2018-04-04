@@ -75,6 +75,40 @@ public class BoardState
 			setVisible(i, j, Mark.I);
 		}
 	}
+	private void setVisibleHelper(int i, int j, Mark mark) {
+		int sI = i;
+		int sJ = j;
+		int aI = i;
+		int aJ = j;
+		for (int a = 0; a < i; a++) {
+			sI--;
+			sJ--;
+			aI--;
+			aJ++;
+			if (sI >= 0 && sJ >= 0)
+				if (this.mark[sI][sJ] != Mark.Q)
+					this.mark[sI][sJ] = mark;
+			if (aI >= 0 && aJ < BoardState.N_SQUARES)
+				if (this.mark[aI][aJ] != Mark.Q)
+					this.mark[aI][aJ] = mark;
+		}
+		sI = i;
+		sJ = j;
+		aI = i;
+		aJ = j;
+		for (int a = 0; a < (BoardState.N_SQUARES - i) ; a++) {
+			sI++;
+			sJ++;
+			aI++;
+			aJ--;
+			if (sI < BoardState.N_SQUARES && sJ < BoardState.N_SQUARES)
+				if (this.mark[sI][sJ] != Mark.Q)
+					this.mark[sI][sJ] = mark;
+			if (aJ >= 0 && aI < BoardState.N_SQUARES)
+				if (this.mark[aI][aJ] != Mark.Q)
+					this.mark[aI][aJ] = mark;
+		}
+	}
 	public void setVisible(int i, int j, Mark mark) {
 		
 		for (int x = 0; x < N_SQUARES; x++) {
@@ -86,7 +120,7 @@ public class BoardState
 			if (x != j)
 				this.mark[i][x] = mark;
 		}
-		//TODO: ITERATE DIAGONALLY
+		this.setVisibleHelper(i, j, mark);
 	}
 	/**
 	 * Set the mark on the given square.
