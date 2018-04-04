@@ -113,6 +113,17 @@ public class ViewProxy
 			error (exc);
 		}
 	}
+	public void setVisible(int i, int j, Mark mark) {
+		try {
+			out.writeByte('V');
+			out.writeByte(i);
+			out.writeByte(j);
+			out.writeByte(mark.ordinal());
+			out.flush();
+		} catch (IOException exc) {
+			error (exc);
+		}
+	}
 	/**
 	 * Report that a mark was placed on a square.
 	 *

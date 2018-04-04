@@ -171,9 +171,6 @@ public class SixQueensModel
 		if (win != -1) {
 			// Current player wins.
 			turn = null;
-			// board.setWin (win);
-			// view1.setWin (win);
-			// view2.setWin (win);
 			if (curr == view1){
 				view1.youWin();
 				view2.otherWin (name1);

@@ -70,19 +70,19 @@ public class BoardState
 	public void setQueen(int i, int j, Mark mark) {
 		if (this.mark[i][j] != Mark.I) {
 			setMark(i, j, mark);
-			// setVisible(i, j, Mark.I);
+			setVisible(i, j, Mark.I);
 		}
 	}
 	public void setVisible(int i, int j, Mark mark) {
 		
-		// for (int x = 0; x < N_SQUARES; x++) {
-		// 	if (x != j)
+		for (int x = 0; x < N_SQUARES; x++) {
+			if (x != j)
 		
-		// 		this.mark[x][j] = mark;
-		// 	if (x != i)
-		// 		this.mark[i][x] = mark;
+				this.mark[x][j] = mark;
+			if (x != i)
+				this.mark[i][x] = mark;
 			
-		// }
+		}
 	}
 	/**
 	 * Set the mark on the given square.
@@ -121,37 +121,5 @@ public class BoardState
 			}
 		return 1;
 	}
-
-	/**
-	 * Set a winning combination.
-	 *
-	 * @param  i  Winning combination number.
-	 *
-	 * @see  #checkWin(Mark)
-	 */
-	// public void setWin
-	// 	(int i)
-	// 	{
-	// 	win[winCombo[i][0]] =
-	// 	win[winCombo[i][1]] =
-	// 	win[winCombo[i][2]] = true;
-	// 	}
-
-	/**
-	 * Check whether the given square is part of a winning combination.
-	 *
-	 * @param  i  Square index.
-	 *
-	 * @return  True if square <TT>i</TT> is part of a winning combination,
-	 *          false if not.
-	 */
-	// public boolean getWin
-	// 	(int i)
-	// 	{
-	// 	return win[i];
-	// 	}
-
-
-
-	}
+}
 

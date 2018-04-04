@@ -203,6 +203,13 @@ public class ModelProxy
 							mark = Mark.valueOf (in.readByte());
 							listener.setQueen(i, j, mark);
 							break;
+						case 'V':
+							i = in.readByte();
+							j = in.readByte();
+							mark = Mark.valueOf (in.readByte());
+							listener.setVisible(i, j, mark);
+							break;
+						
 						case 'M':
 							i = in.readByte();
 							mark = Mark.valueOf (in.readByte());
