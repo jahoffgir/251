@@ -86,35 +86,7 @@ public class BoardState
 			if (x != j)
 				this.mark[i][x] = mark;
 		}
-		// int negRow = i;
-		// int negCol = j;
-		// int posRow = i;
-		// int posCol = j;
-
-		// for (int x = 0; x < i; x++) {
-		// 	System.out.println(negRow);
-		// 	System.out.println(negCol);
-		// 	negRow--;
-		// 	negCol--;
-		// 	this.mark[negRow][negCol] = mark;
-		// 	System.out.println(posRow);
-		// 	System.out.println(posCol);
-		// 	posRow--;
-		// 	posCol++;
-		// 	this.mark[posRow][posCol] = mark;
-		// }
-		// negRow = i;
-		// negCol = j;
-		// posRow = i;
-		// posCol = j;
-		// for (int y = 0; y < j; y++) {
-		// 	negRow++;
-		// 	negCol++;
-		// 	this.mark[negRow][negCol] = mark;
-		// 	posRow++;
-		// 	posCol--;
-		// 	this.mark[posRow][posCol] = mark;
-		// }
+		//TODO: ITERATE DIAGONALLY
 	}
 	/**
 	 * Set the mark on the given square.
