@@ -18,7 +18,7 @@ import java.awt.event.WindowEvent;
  * @author Jahongir Amirkulov
  * @version 03/26/2018
  */
-public class SixQueensView implements ModelListener {
+public class SixQueensView implements ModelListener, SixQueensJPanelListener{
 
     // Hidden data members.
 
