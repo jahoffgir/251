@@ -214,7 +214,7 @@ public class ViewProxy implements ModelListener {
 				try {
 					socket.close();
 				} catch (IOException exc) {
-					
+
 				}
 			}
 		}
@@ -244,4 +244,3 @@ public class ViewProxy implements ModelListener {
 	}
 
 }
-

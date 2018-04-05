@@ -62,7 +62,7 @@ public class SixQueens {
 	 * @param  msg  Message.
 	 */
 	private static void errorUsage (String msg) {
-		System.err.printf ("TicTacToe: %s%n", msg);
+		System.err.printf ("SixQueens: %s%n", msg);
 		usage();
 	}
 

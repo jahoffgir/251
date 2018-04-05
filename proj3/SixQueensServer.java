@@ -98,7 +98,7 @@ public class SixQueensServer {
 	 * @param  exc  Exception.
 	 */
 	private static void error (IOException exc) {
-		System.err.println ("TicTacToeServer: I/O error");
+		System.err.println ("SixQueensServer: I/O error");
 		exc.printStackTrace (System.err);
 		System.exit (1);
 	}

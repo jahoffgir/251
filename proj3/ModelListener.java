@@ -66,4 +66,3 @@ public interface ModelListener {
 	 */
 	public void quit();
 }
-
