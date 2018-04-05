@@ -7,7 +7,7 @@
  *  attacked by the queens on the board.
  *
  *  @author     Jahongir Amirkulov
- *  @version    03/28/18
+ *  @version    04/05/18
  *
  */ 
 
@@ -17,6 +17,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
+ * 
  * Class SixQueensServer is the server main program for the Six Queens server network
  * game.
  *

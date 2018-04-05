@@ -1,42 +1,16 @@
-//******************************************************************************
-//
-// File:    BoardState.java
-// Package: ---
-// Unit:    Class BoardState
-//
-// This Java source file is copyright (C) 2018 by Alan Kaminsky. All rights
-// reserved. For further information, contact the author, Alan Kaminsky, at
-// ark@cs.rit.edu.
-//
-// This Java source file is free software; you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by the Free
-// Software Foundation; either version 3 of the License, or (at your option) any
-// later version.
-//
-// This Java source file is distributed in the hope that it will be useful, but
-// WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-// FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
-// details.
-//
-// You may obtain a copy of the GNU General Public License on the World Wide Web
-// at http://www.gnu.org/licenses/gpl.html.
-//
-//******************************************************************************
-
 import java.util.Arrays;
-
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
 
 /**
- * Class BoardState encapsulates the state of a Tic-Tac-Toe game board.
+ * Class BoardState encapsulates the state of a SixQueen game board.
  *
  * @author  Alan Kaminsky
- * @version 26-Feb-2018
+ * @author  Jahongir Amirkulov
+ * @version 04/05/18
  */
-public class BoardState
-	{
+public class BoardState {
 
-// Exported data members.
+	// Exported data members.
 
 	/**
 	 * Number of squares on the board.
@@ -47,7 +21,7 @@ public class BoardState
 	
 	private Mark[][] mark;    // Mark on each square
 
-// Exported constructors.
+	// Exported constructors.
 
 	/**
 	 * Construct a new board state object.
@@ -57,7 +31,7 @@ public class BoardState
 		clear();
 	}
 
-// Exported operations.
+	// Exported operations.
 
 	/**
 	 * Clear this board state object.
@@ -65,21 +39,36 @@ public class BoardState
 	public void clear() {
 		for (int i = 0; i < N_SQUARES; i++) {
 			Arrays.fill (mark[i], Mark.BLANK);
-		}
-		
+		}	
 	}
 
+	/**
+	 * 
+	 * Sets the queen on the board
+	 *
+	 * @param i 	row
+	 * @param j 	col
+	 * @param mark mark
+	 */
 	public void setQueen(int i, int j, Mark mark) {
-		if (this.mark[i][j] != Mark.I) {
-			setMark(i, j, mark);
-			setVisible(i, j, Mark.I);
-		}
+		setMark(i, j, mark);
+		setVisible(i, j, Mark.I);
 	}
+
+	/**
+	 * 
+	 * Helper for setvisible
+	 * 
+	 * @param i 	row
+	 * @param j 	col
+	 * @param mark 	mark
+	 */
 	private void setVisibleHelper(int i, int j, Mark mark) {
 		int sI = i;
 		int sJ = j;
 		int aI = i;
 		int aJ = j;
+		// sets the diagonal cells invisible
 		for (int a = 0; a < i; a++) {
 			sI--;
 			sJ--;
@@ -109,23 +98,31 @@ public class BoardState
 					this.mark[aI][aJ] = mark;
 		}
 	}
+
+	/**
+	 * Sets the cells that are vertical, horizontal, and diagonal invisible
+	 * @param i 	row
+	 * @param j 	col
+	 * @param mark 	mark
+	 */
 	public void setVisible(int i, int j, Mark mark) {
-		
+		// set the horizontal and vertical cells invisible
 		for (int x = 0; x < N_SQUARES; x++) {
 			if (x != i)
 				this.mark[x][j] = mark;
 		}	
-		// }
 		for (int x = 0; x < N_SQUARES; x++) {
 			if (x != j)
 				this.mark[i][x] = mark;
 		}
 		this.setVisibleHelper(i, j, mark);
 	}
+
 	/**
 	 * Set the mark on the given square.
 	 *
 	 * @param  i     Square index.
+	 * @param  j 	 Square index.
 	 * @param  mark  Mark.
 	 */
 	public void setMark(int i, int j, Mark mark) {
@@ -136,6 +133,7 @@ public class BoardState
 	 * Get the mark on the given square.
 	 *
 	 * @param  i  Square index.
+	 * @param  j  Square index.
 	 *
 	 * @return  Mark.
 	 */
@@ -147,9 +145,8 @@ public class BoardState
 	 * Determine if the marks on the board are a winning combination for the
 	 * given player.
 	 *
-	 * @param  player  Player (X or O).
 	 *
-	 * @return  Winning combination number if the player wins, &minus;1 if not.
+	 * @return  win or not
 	 */
 	public int checkWin() {
 		for (int i = 0; i < N_SQUARES; i++)
@@ -159,15 +156,4 @@ public class BoardState
 			}
 		return 1;
 	}
-	public static void main(String [] args) {
-		BoardState bs = new BoardState();
-
-		bs.setQueen(0, 0, Mark.Q);
-
-		for (int i = 0; i < N_SQUARES; i++)
-			for (int j = 0; j < N_SQUARES; j++) {
-				System.out.println(bs.getMark(i, j));
-			}
-	}
 }
-

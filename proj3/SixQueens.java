@@ -5,7 +5,7 @@ import java.net.Socket;
 /**
  * Class Six Of Queens is the client main program for the Six Of Queens network
  * game.
- *
+ * @author  Alan Kaminsky
  * @author  Jahongir Amirkulov
  * @version 04/01/18
  */

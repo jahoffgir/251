@@ -1,53 +1,27 @@
-//******************************************************************************
-//
-// File:    ModelProxy.java
-// Package: ---
-// Unit:    Class ModelProxy
-//
-// This Java source file is copyright (C) 2018 by Alan Kaminsky. All rights
-// reserved. For further information, contact the author, Alan Kaminsky, at
-// ark@cs.rit.edu.
-//
-// This Java source file is free software; you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by the Free
-// Software Foundation; either version 3 of the License, or (at your option) any
-// later version.
-//
-// This Java source file is distributed in the hope that it will be useful, but
-// WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-// FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
-// details.
-//
-// You may obtain a copy of the GNU General Public License on the World Wide Web
-// at http://www.gnu.org/licenses/gpl.html.
-//
-//******************************************************************************
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
-
 /**
- * Class ModelProxy provides the model proxy for the Tic-Tac-Toe Game. It
+ * Class ModelProxy provides the model proxy for the SixQueen Game. It
  * implements the client side of the client-server network communication.
  *
  * @author  Alan Kaminsky
- * @version 26-Feb-2018
+ * @author  Jahongir Amirkulov
+ * @version 04/05/18
  */
-public class ModelProxy
-	implements ViewListener
-	{
 
-// Hidden data members.
+public class ModelProxy implements ViewListener {
+
+	// Hidden data members.
 
 	private Socket socket;
 	private DataOutputStream out;
 	private DataInputStream in;
 	private ModelListener listener;
 
-// Exported constructors.
+	// Exported constructors.
 
 	/**
 	 * Construct a new model proxy.
@@ -57,35 +31,28 @@ public class ModelProxy
 	 * @exception  IOException
 	 *     Thrown if an I/O error occurred.
 	 */
-	public ModelProxy
-		(Socket socket)
-		{
-		try
-			{
+	public ModelProxy(Socket socket) {
+		try {
 			this.socket = socket;
 			socket.setTcpNoDelay (true);
 			out = new DataOutputStream (socket.getOutputStream());
 			in = new DataInputStream (socket.getInputStream());
-			}
-		catch (IOException exc)
-			{
+		} catch (IOException exc) {
 			error (exc);
-			}
 		}
+	}
 
-// Exported operations.
+	// Exported operations.
 
 	/**
 	 * Set the model listener object for this model proxy.
 	 *
 	 * @param  listener  Model listener.
 	 */
-	public void setListener
-		(ModelListener listener)
-		{
+	public void setListener(ModelListener listener) {
 		this.listener = listener;
 		new ReaderThread() .start();
-		}
+	}
 
 	/**
 	 * Report that a player joined the game.
@@ -93,10 +60,7 @@ public class ModelProxy
 	 * @param  view  View object making the report.
 	 * @param  name  Player's name.
 	 */
-	public void join
-		(ModelListener view,
-		 String name)
-		{
+	public void join(ModelListener view, String name) {
 		try {
 			out.writeByte ('J');
 			out.writeUTF (name);
@@ -113,18 +77,13 @@ public class ModelProxy
 	 * @param  view  View object making the report.
 	 * @param  i     Square index.
 	 */
-	public void squareChosen
-		(ModelListener view,
-		 int i, int j)
-		{
-		try
-			{
+	public void squareChosen(ModelListener view, int i, int j) {
+		try {
 			out.writeByte ('S');
 			out.writeByte (i);
 			out.writeByte (j);
 			out.flush();
-			}
-		catch (IOException exc) {
+		} catch (IOException exc) {
 			error (exc);
 		}
 	}
@@ -134,38 +93,28 @@ public class ModelProxy
 	 *
 	 * @param  view  View object making the report.
 	 */
-	public void newGame
-		(ModelListener view)
-		{
-		try
-			{
+	public void newGame(ModelListener view) {
+		try {
 			out.writeByte ('G');
 			out.flush();
-			}
-		catch (IOException exc)
-			{
+		} catch (IOException exc) {
 			error (exc);
-			}
 		}
+	}
 
 	/**
 	 * Report that the player quit.
 	 *
 	 * @param  view  View object making the report.
 	 */
-	public void quit
-		(ModelListener view)
-		{
-		try
-			{
+	public void quit(ModelListener view) {
+		try {
 			out.writeByte ('Q');
 			out.flush();
-			}
-		catch (IOException exc)
-			{
+		} catch (IOException exc) {
 			error (exc);
-			}
 		}
+	}
 
 // Hidden helper classes.
 
@@ -173,39 +122,31 @@ public class ModelProxy
 	 * Class ReaderThread receives messages from the network, decodes them, and
 	 * invokes the proper methods to process them.
 	 */
-	private class ReaderThread
-		extends Thread
-		{
+	private class ReaderThread extends Thread {
 		/**
 		 * Run the reader thread.
 		 */
-		public void run()
-			{
+		public void run() {
 			int op, i, j;
 			boolean v;
 			Mark mark;
 			String name;
-			try
-				{
-				for (;;)
-					{
+			try {
+				for (;;) {
 					op = in.readByte();
-					switch (op)
-						{
+					switch (op) {
 						case 'N':
 							listener.newGame();
 							break;
 						case 'E':
 							i = in.readByte();
 							j = in.readByte();
-							mark = Mark.valueOf (in.readByte());
-							listener.setQueen(i, j, mark);
+							listener.setQueen(i, j);
 							break;
 						case 'V':
 							i = in.readByte();
 							j = in.readByte();
-							v = in.readBoolean();
-							listener.setVisible(i, j, v);
+							listener.setVisible(i, j);
 							break;
 						case 'P':
 							listener.waitingForPartner();
@@ -230,28 +171,21 @@ public class ModelProxy
 						default:
 							error ("Bad message");
 							break;
-						}
 					}
 				}
-			catch (EOFException exc)
-				{
-				}
-			catch (IOException exc)
-				{
+			} catch (EOFException exc) {
+
+			} catch (IOException exc) {
 				error (exc);
-				}
-			finally
-				{
-				try
-					{
+			} finally {
+				try {
 					socket.close();
-					}
-				catch (IOException exc)
-					{
-					}
+				} catch (IOException exc) {
+
 				}
 			}
 		}
+	}
 
 	// Hidden operations.
 	/**

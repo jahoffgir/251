@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -18,21 +17,17 @@ import java.awt.event.WindowEvent;
  * @author Jahongir Amirkulov
  * @version 03/26/2018
  */
-public class SixQueensView implements ModelListener, SixQueensJPanelListener{
+public class SixQueensView implements ModelListener{
 
     // Hidden data members.
-
     private static final int GAP = 10;
-
     private JFrame frame;
     private SixQueensJPanel board;
     private JTextField messageField;
     private JButton newGameButton;
-
     private ViewListener listener;
 
     // Hidden constructors.
-
 	/**
 	 * Construct a new Six Queens view object.
 	 *
@@ -44,7 +39,6 @@ public class SixQueensView implements ModelListener, SixQueensJPanelListener{
 		p1.setLayout (new BoxLayout (p1, BoxLayout.Y_AXIS));
 		p1.setBorder (BorderFactory.createEmptyBorder (GAP, GAP, GAP, GAP));
 		frame.add (p1);
-
 		board = new SixQueensJPanel();
 		board.setFocusable (false);
 		board.setAlignmentX (0.5f);
@@ -91,11 +85,11 @@ public class SixQueensView implements ModelListener, SixQueensJPanelListener{
     
     /**
      * Construct a new SixQueensView view object.
-    *
-    * @param  name  Player's name.
-    *
-    * @return  View object.
-    */
+     *
+     * @param  name  Player's name.
+     *
+     * @return  View object.
+     */
     public static SixQueensView create(String name) {
         UIRef uiref = new UIRef();
         onSwingThreadDo (new Runnable() {
@@ -124,7 +118,13 @@ public class SixQueensView implements ModelListener, SixQueensJPanelListener{
         });
     }
 
-    public void setQueen(int i, int j, Mark mark) {
+    /**
+     * Sets the queen
+     * 
+     * @param i row
+     * @param j col
+     */
+    public void setQueen(int i, int j) {
         onSwingThreadDo (new Runnable() {
             public void run() {   
                 board.setQueen(i, j, true);
@@ -132,10 +132,17 @@ public class SixQueensView implements ModelListener, SixQueensJPanelListener{
             }
         });
     }
-    public void setVisible(int i, int j, boolean v) {
+
+    /**
+     * Sets the visible
+     * 
+     * @param i row
+     * @param j col
+     */
+    public void setVisible(int i, int j) {
         onSwingThreadDo (new Runnable() {
             public void run() {
-                board.setVisible(i, j, v);
+                board.setVisible(i, j, false);
             }
         });
     }

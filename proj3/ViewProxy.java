@@ -1,28 +1,3 @@
-//******************************************************************************
-//
-// File:    ViewProxy.java
-// Package: ---
-// Unit:    Class ViewProxy
-//
-// This Java source file is copyright (C) 2018 by Alan Kaminsky. All rights
-// reserved. For further information, contact the author, Alan Kaminsky, at
-// ark@cs.rit.edu.
-//
-// This Java source file is free software; you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by the Free
-// Software Foundation; either version 3 of the License, or (at your option) any
-// later version.
-//
-// This Java source file is distributed in the hope that it will be useful, but
-// WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-// FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
-// details.
-//
-// You may obtain a copy of the GNU General Public License on the World Wide Web
-// at http://www.gnu.org/licenses/gpl.html.
-//
-//******************************************************************************
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
@@ -30,7 +5,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 /**
- * Class ViewProxy provides the view proxy for the Tic-Tac-Toe Game. It
+ * Class ViewProxy provides the view proxy for the SixQueen Game. It
  * implements the server side of the client-server network communication.
  *
  * @author  Alan Kaminsky
@@ -88,24 +63,22 @@ public class ViewProxy implements ModelListener {
 			error (exc);
 		}
 	}
-	public void setQueen(int i, int j, Mark mark) {
+	public void setQueen(int i, int j) {
 		try {
 			out.writeByte('E');
 			out.writeByte(i);
 			out.writeByte(j);
-			out.writeByte(mark.ordinal());
 			out.flush();
 		} catch (IOException exc) {
 			error (exc);
 		}
 	}
 
-	public void setVisible(int i, int j, boolean v) {
+	public void setVisible(int i, int j) {
 		try {
 			out.writeByte('V');
 			out.writeByte(i);
 			out.writeByte(j);
-			out.writeBoolean(v); // TODO: Make sure this is valid
 			out.flush();
 		} catch (IOException exc) {
 			error (exc);
@@ -155,18 +128,14 @@ public class ViewProxy implements ModelListener {
 	/**
 	 * Report that the player wins.
 	 */
-	public void youWin()
-		{
-		try
-			{
+	public void youWin() {
+		try {
 			out.writeByte ('W');
 			out.flush();
-			}
-		catch (IOException exc)
-			{
+		} catch (IOException exc) {
 			error (exc);
-			}
 		}
+	}
 
 	/**
 	 * Report that the other player wins.
@@ -196,7 +165,7 @@ public class ViewProxy implements ModelListener {
 		}
 	}
 
-// Hidden helper classes.
+	// Hidden helper classes.
 
 	/**
 	 * Class ReaderThread receives messages from the network, decodes them, and
@@ -212,13 +181,10 @@ public class ViewProxy implements ModelListener {
 			{
 			int op, i, j;
 			String name;
-			try
-				{
-				for (;;)
-					{
+			try {
+				for (;;) {
 					op = in.readByte();
-					switch (op)
-						{
+					switch (op) {
 						case 'J':
 							name = in.readUTF();
 							listener.join (ViewProxy.this, name);
@@ -237,55 +203,45 @@ public class ViewProxy implements ModelListener {
 						default:
 							error ("Bad message");
 							break;
-						}
-					}
-				}
-			catch (EOFException exc)
-				{
-				}
-			catch (IOException exc)
-				{
-				error (exc);
-				}
-			finally
-				{
-				try
-					{
-					socket.close();
-					}
-				catch (IOException exc)
-					{
 					}
 				}
 			}
-		}
+			catch (EOFException exc) {
 
-// Hidden operations.
+			} catch (IOException exc) {
+				error (exc);
+			} finally {
+				try {
+					socket.close();
+				} catch (IOException exc) {
+					
+				}
+			}
+		}
+	}
+
+	// Hidden operations.
 
 	/**
 	 * Print an error message and terminate the program.
 	 *
 	 * @param  msg  Message.
 	 */
-	private static void error
-		(String msg)
-		{
+	private static void error(String msg) {
 		System.err.printf ("ViewProxy: %s%n", msg);
 		System.exit (1);
-		}
+	}
 
 	/**
 	 * Print an I/O error message and terminate the program.
 	 *
 	 * @param  exc  Exception.
 	 */
-	private static void error
-		(IOException exc)
-		{
+	private static void error(IOException exc) {
 		System.err.println ("ViewProxy: I/O error");
 		exc.printStackTrace (System.err);
 		System.exit (1);
-		}
-
 	}
+
+}
 

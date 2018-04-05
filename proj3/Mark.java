@@ -1,12 +1,12 @@
 /**
- * Enum Mark enumerates the marks that can appear on a Tic-Tac-Toe game board.
+ * Enum Mark enumerates the marks that can appear on a SixQueen game board.
  *
  * @author  Alan Kaminsky
  * @author  Jahongir Amirkulov
- * @version 26-Feb-2018
- * @version 04/06/18 
+ * @version 04/05/18 
  */
 public enum Mark{
+
 	/**
 	 * Square is Blank.
 	 */
