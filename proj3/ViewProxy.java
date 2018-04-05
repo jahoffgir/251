@@ -9,7 +9,8 @@ import java.net.Socket;
  * implements the server side of the client-server network communication.
  *
  * @author  Alan Kaminsky
- * @version 26-Feb-2018
+ * @author  Jahongir Amirkulov
+ * @version 04/05/18
  */
 public class ViewProxy implements ModelListener {
 

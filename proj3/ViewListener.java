@@ -1,10 +1,9 @@
-
 /**
  * Interface ViewListener specifies the interface for an object that receives
  * reports from the View in the SixQueen Game.
  *
  * @author  Alan Kaminsky
- * @author Jahongir Amirkulov
+ * @author  Jahongir Amirkulov
  * @version 04/05/18
  */
 public interface ViewListener {
