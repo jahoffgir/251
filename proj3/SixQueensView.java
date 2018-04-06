@@ -14,7 +14,7 @@ import java.awt.event.WindowEvent;
  * Class SixQueensView provides the user interface for the Six Queens Game.
  *
  * @author  Alan Kaminsky
- * @author Jahongir Amirkulov
+ * @author  Jahongir Amirkulov
  * @version 03/26/2018
  */
 public class SixQueensView implements ModelListener{

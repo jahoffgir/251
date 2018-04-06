@@ -64,6 +64,14 @@ public class ViewProxy implements ModelListener {
 			error (exc);
 		}
 	}
+
+	/**
+	 * 
+	 * Sets the queen
+	 * @param 	i	row
+	 * @param 	j	col
+	 * 
+	 */
 	public void setQueen(int i, int j) {
 		try {
 			out.writeByte('E');
@@ -75,6 +83,13 @@ public class ViewProxy implements ModelListener {
 		}
 	}
 
+	/**
+	 * 
+	 * Sets the cell invisible
+	 * 
+	 * @param 	i 	row
+	 * @param 	j 	col
+	 */
 	public void setVisible(int i, int j) {
 		try {
 			out.writeByte('V');

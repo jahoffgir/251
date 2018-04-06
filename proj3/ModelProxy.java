@@ -116,7 +116,7 @@ public class ModelProxy implements ViewListener {
 		}
 	}
 
-// Hidden helper classes.
+	// Hidden helper classes.
 
 	/**
 	 * Class ReaderThread receives messages from the network, decodes them, and
