@@ -168,7 +168,6 @@ public class ViewProxy implements ModelListener {
 		}
 	}
 
-
 	/**
 	 * Report that a player quit.
 	 */
@@ -182,7 +181,6 @@ public class ViewProxy implements ModelListener {
 	}
 
 	// Hidden helper classes.
-
 	/**
 	 * Class ReaderThread receives messages from the network, decodes them, and
 	 * invokes the proper methods to process them.
