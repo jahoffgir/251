@@ -19,11 +19,16 @@
             int lport = Integer.parseInt(args[3]);
             String publicKetFile = args[4];
             String message = args[5];
+            DatagramSocket mailbox = new DatagramSocket(new InetSocketAddress (rport, rport));
             
+            // TODO FIX THIS
+            StationProxy proxy = new StationProxy (mailbox, new InetSocketAddress (lhost, lport));
+
+            // TODO pass the data to other classes
         } catch (Exception e) {
             System.err.println("Illegal arguement.");
             usage();
-        )
+        }
 
     }
 
