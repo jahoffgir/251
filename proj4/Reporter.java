@@ -15,13 +15,11 @@ public class Reporter {
             // User input
             String rhost = args[0];
             int rport = Integer.parseInt(args[1]);
-            String privateKetFile = args[2];
-
-            // TODO rename mailbox to something else
-            DatagramSocket mailbox = new DatagramSocket(new InetSocketAddress (rport, rport));
-            
-            
-
+            String privateKeyFile = args[2];
+            DatagramSocket reporter = new DatagramSocket(new InetSocketAddress (rport, rport));
+            ReportProxy rp = new ReportProxy(reporter);
+            ReporterModel rm = new ReporterModel(privateKeyFile);
+            rp.setListener(rm);
         } catch (Exception e) {
             System.err.println("Illegal arguement.");
             usage();
@@ -33,7 +31,7 @@ public class Reporter {
     * Print a usage message and exit.
     */
     private static void usage() {
-        System.err.println("Usage: ava Reporter <rhost> <rport> <privatekeyfile>");
+        System.err.println("Usage: java Reporter <rhost> <rport> <privatekeyfile>");
         System.exit(1);
     }
 }
