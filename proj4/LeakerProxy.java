@@ -32,14 +32,13 @@ public class LeakerProxy {
     */
     public void encode(String message, String publicKeyFile) 
     throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream (baos);
         out.writeByte('R');
         out.writeUTF(message);
         out.writeUTF(publicKeyFile);
         out.close();
-        // byte[] payload = baos.toByteArray();
-        // reporter.send(new DatagramPacket(payload, payload.length, destination));
+        byte[] payload = new byte[260];
+        reporter.send(new DatagramPacket(payload, payload.length, destination));
     }
 
 }

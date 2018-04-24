@@ -17,6 +17,13 @@ public class LeakerModel {
     private class Reporter implements Runnable {
         public void run() {
             try {
+                // TODO need to do the encoding here
+                OAEP op = new OAEP();
+                byte [] bt = new byte[32];
+
+                // Plain text
+                BigInteger plaintext = op.encode(message, new Random().nextBytes(bt));
+                
                 proxy.encode(message, publicKeyFile);
             } catch (IOException exc) {
                 exc.printStackTrace (System.err);
