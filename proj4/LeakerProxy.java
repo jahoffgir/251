@@ -30,12 +30,10 @@ public class LeakerProxy {
     * @exception  IOException
     *     Thrown if an I/O error occurred.
     */
-    public void encode(String message, String publicKeyFile) 
-    throws IOException {
-        DataOutputStream out = new DataOutputStream (baos);
+    public void encode(byte [] cipher) throws IOException {
+        DataOutputStream out = new DataOutputStream ();
         out.writeByte('R');
-        out.writeUTF(message);
-        out.writeUTF(publicKeyFile);
+        out.write(cipher);;
         out.close();
         byte[] payload = new byte[260];
         reporter.send(new DatagramPacket(payload, payload.length, destination));

@@ -1,3 +1,5 @@
+import java.math.BigInteger;
+
 public class LeakerModel {
     private String message;
     private LeakerProxy proxy;
@@ -8,27 +10,42 @@ public class LeakerModel {
         this.publicKeyFile = publicKeyFile;
     }
 
-    // Hidden operations.
-
     /**
-    * Class Reporter provides a runnable object that reports the fire sensor
-    * state to the listener.
-    */
-    private class Reporter implements Runnable {
-        public void run() {
-            try {
-                // TODO need to do the encoding here
-                OAEP op = new OAEP();
-                byte [] bt = new byte[32];
+     * 
+     * Encodes the message and the LeakerProxy will send it to the Reporter
+     * 
+     */
+    public void encode() {
+        try {
+            OAEP op = new OAEP();
+            // seed
+            byte [] bt = new byte[32];
 
-                // Plain text
-                BigInteger plaintext = op.encode(message, new Random().nextBytes(bt));
-                
-                proxy.encode(message, publicKeyFile);
-            } catch (IOException exc) {
-                exc.printStackTrace (System.err);
-                System.exit (1);
-            }
+            // Plain text
+            BigInteger plaintext = op.encode(message, new Random().nextBytes(bt));
+
+            // read the publickey file and extract the exponent and the modulus
+            File file = new File(publicKeyFile);
+			FileReader fileReader = new FileReader(file);
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+            int increment = 0;
+            BigInteger exponentE;
+            BigInteger modulusM;
+			String line;
+			while ((line = bufferedReader.readLine()) != null) {
+                if (increment == 0) exponentE = new BigInteger(line);
+                else if (increment == 1) modulusM = new BigInteger(line);
+                increment++;
+			}
+            fileReader.close();
+            
+            // c = m^e (mod n)
+            BigInteger c = plaintext.modPow(exponentE, modulusM);
+            byte [] cipher = c.toByteArray();
+            proxy.encode(cipher);
+        } catch (IOException exc) {
+            exc.printStackTrace (System.err);
+            System.exit (1);
         }
     }
 }
