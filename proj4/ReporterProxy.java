@@ -56,7 +56,9 @@ public class ReporterProxy
 		this.mailbox = mailbox;
 		this.reporter = reporter;
 	}
-
+	public void start() {
+		new ReaderThread() .start();
+	}
 	public void decode() {
 		byte[] payload = new byte[260]; 
 		// byte[] cipher;

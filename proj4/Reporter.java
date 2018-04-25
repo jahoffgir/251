@@ -22,6 +22,7 @@ public class Reporter {
             
             ReporterModel rm = new ReporterModel(privateKeyFile);
             ReporterProxy rp = new ReporterProxy(reporter, rm);
+            rp.start();
             
         } catch (Exception e) {
             System.err.println("Illegal arguement.");
