@@ -4,58 +4,101 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.util.Random;
+
+/**
+ * 
+ * Class RSA that will encode and decode the message
+ * 
+ * @author Jahongir Amirkulov
+ * @version 04/25/18
+ * 
+ */
 public class RSA {
 
-    public static byte[] encode(String publicKeyFile, String message) {
-        OAEP op = new OAEP();
-        // seed
-        byte [] bt = new byte[32];
-        new Random().nextBytes(bt);
-        // Plain text
-        BigInteger plaintext = op.encode(message, bt);
+    // hidden variables
+    private String fileName;
 
-        BigInteger [] result = getFromFile(publicKeyFile);
+    /**
+     * RSA constructor 
+     * 
+     * @param fileName - file
+     */
+    public RSA (String fileName) {
+        this.fileName = fileName;
+    }
 
-        // c = m^e (mod n) encoding it
-        BigInteger c = plaintext.modPow(result[0], result[1]);
+    /**
+     * Encodes the message
+     * 
+     * @param publicKeyFile - the file
+     * @param message - message
+     */
+    public byte[] encode(String message) {
+        try {
+            OAEP op = new OAEP();
+            // seed
+            byte [] bt = new byte[32];
+            new Random().nextBytes(bt);
+            // Plain text
+            BigInteger plaintext = op.encode(message, bt);
+            BigInteger [] result = getFromFile(fileName);
+            // c = m^e (mod n) encoding it
+            BigInteger c = plaintext.modPow(result[0], result[1]); 
+        } catch (Exception e) {
+            System.out.println("ERROR");
+            System.exit(1);
+        }
         return c.toByteArray();
 
     }
 
-    private static BigInteger[] getFromFile(String fileName) {
+    /**
+     * Gets the exponent and modulus from file
+     * 
+     * @param fileName - the file
+     */
+    private BigInteger[] getFromFile(String fileName) {
         BigInteger [] result = new BigInteger [2];
         try {
-            
-
             // read the publickey file and extract the exponent and the modulus
             File file = new File(fileName);
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             int increment = 0;
-            
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 if (increment == 0) result[0] = new BigInteger(line);
                 else if (increment == 1) result[1] = new BigInteger(line);
                 increment++;
             }
-            fileReader.close();
-            
+            fileReader.close();  
         } catch (IOException a) {
-            System.err.println("Error");
+            System.err.println("ERROR");
             System.exit(1);
         }
         return result;
     }
-    public static String decode(byte [] cipher, String privateKeyFile) {
-        BigInteger cipherText = new BigInteger(cipher);
-        
-        BigInteger [] result = getFromFile(privateKeyFile);
 
-        // decoding 
-        BigInteger plaintext = cipherText.modPow(result[0], result[1]);
-        OAEP op = new OAEP();
-        String decode = op.decode(plaintext);
+    /**
+     * 
+     * Decodes the message
+     * 
+     * @param cipher - ciphertext
+     * @param privateKeyFile - the file
+     */
+    public String decode(byte [] cipher) {
+        ;
+        try {
+            BigInteger cipherText = new BigInteger(cipher);
+            BigInteger [] result = getFromFile(fileName);
+            // decoding 
+            BigInteger plaintext = cipherText.modPow(result[0], result[1]);
+            OAEP op = new OAEP();
+            String decode = op.decode(plaintext);
+        } catch (Exception e) {
+            System.out.println("ERROR");
+            System.exit(1);
+        }
         return decode;
     }
 

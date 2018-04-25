@@ -28,27 +28,20 @@ public class ReporterModel implements LeakerListener{
         this.privatekeyFile = privateKeyFile;
     }
 
+    /**
+     * 
+     * Sends the message to be encrypted 
+     * 
+     * @param cipher - ciphertext
+     * 
+     */
     public void send(byte[] cipher) {
         try {
-            System.out.println(RSA.decode(cipher, privatekeyFile));
+            RSA rsa = new RSA(privatekeyFile);
+            System.out.println(rsa.decode(cipher));
         } catch(Exception e) {
             System.out.println("ERROR");
             System.exit(1);
         }
     }
-    /**
-     * 
-     * Decodes the ciphertext
-     * 
-     * @param cipher - cipher text that needs to be decoded
-     * 
-     */
-    // public void decode(byte[] cipher) {
-    //     try {
-    //         System.out.println(RSA.decode(cipher, privatekeyFile));
-    //     } catch(Exception e) {
-    //         System.out.println("ERROR");
-    //         System.exit(1);
-    //     }
-    // }
 }

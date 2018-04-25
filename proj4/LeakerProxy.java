@@ -59,7 +59,7 @@ public class LeakerProxy {
                     } 
                     reporter.send(pay);
                 }
-			} catch (IOException exc) {
+			} catch(Exception e) {
 				System.out.println("ERROR");
 				System.exit(1);
 			}

@@ -1,10 +1,10 @@
 public interface LeakerListener {
     /**
-     * Interface ReporterListener specifies the interface to an object that receives
+     * Interface LeakerListener specifies the interface to an object that receives
      * notifications from the Reporter and Leaker.
      *
-     * @author  Alan Kaminsky
-     * @version 10-Feb-2017
+     * @author  Jahongir Amirkulov
+     * @version 04/25/18
      */
     public void send(byte[] cipher);
 }

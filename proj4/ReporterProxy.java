@@ -17,7 +17,6 @@ public class ReporterProxy {
     // private variables
     private DatagramSocket reporter;
     private SocketAddress destination;
-    
 
     /**
      * 
@@ -30,7 +29,6 @@ public class ReporterProxy {
         this.reporter = reporter;
         this.destination = destination;
     }
-
     
     /**
     * Report the state of a fire sensor.
