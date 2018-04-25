@@ -1,6 +1,7 @@
 import java.math.BigInteger;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.BufferedReader;
 import java.util.Random;
 public class RSA {
@@ -23,20 +24,27 @@ public class RSA {
 
     private static BigInteger[] getFromFile(String fileName) {
         BigInteger [] result = new BigInteger [2];
+        try {
+            
 
-        // read the publickey file and extract the exponent and the modulus
-        File file = new File(fileName);
-        FileReader fileReader = new FileReader(file);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        int increment = 0;
-        
-        String line;
-        while ((line = bufferedReader.readLine()) != null) {
-            if (increment == 0) result[0] = new BigInteger(line);
-            else if (increment == 1) result[1] = new BigInteger(line);
-            increment++;
+            // read the publickey file and extract the exponent and the modulus
+            File file = new File(fileName);
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            int increment = 0;
+            
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                if (increment == 0) result[0] = new BigInteger(line);
+                else if (increment == 1) result[1] = new BigInteger(line);
+                increment++;
+            }
+            fileReader.close();
+            
+        } catch (IOException a) {
+            System.err.println("Error");
+            System.exit(1);
         }
-        fileReader.close();
         return result;
     }
     public static String decode(byte [] cipher, String privateKeyFile) {

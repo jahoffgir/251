@@ -42,7 +42,7 @@ public class LeakerModel {
     public void encode() {
         try {
             
-            proxy.encode(RSA.encode(publicKeyFile, String message));
+            proxy.encode(RSA.encode(publicKeyFile, message));
         } catch (IOException exc) {
             System.err.println("Error in the Leaker Model.");
             System.exit(1);
