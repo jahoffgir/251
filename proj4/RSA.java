@@ -5,7 +5,7 @@ import java.io.BufferedReader;
 import java.util.Random;
 public class RSA {
 
-    public static byte[] encode(String publicKeyFile) {
+    public static byte[] encode(String publicKeyFile, String message) {
         OAEP op = new OAEP();
         // seed
         byte [] bt = new byte[32];
