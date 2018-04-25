@@ -32,14 +32,7 @@ public class LeakerProxy {
     *     Thrown if an I/O error occurred.
     */
     public void encode(byte [] cipher) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        DataOutputStream out = new DataOutputStream (baos);
-    
-        out.writeByte('E');
-        out.write(cipher);;
-        out.close();
-        byte[] payload = new byte[260];
-        reporter.send(new DatagramPacket(payload, payload.length, destination));
+        reporter.send(new DatagramPacket(cipher, cipher.length, destination));
     }
 
 }

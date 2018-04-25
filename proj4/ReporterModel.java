@@ -42,6 +42,7 @@ public class ReporterModel {
             String decode = op.decode(plaintext);
             System.out.println(decode);
         } catch(Exception e) {
+            e.printStackTrace();
             System.out.println("ERROR1");
             System.exit(1);
         }

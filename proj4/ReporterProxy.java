@@ -67,28 +67,16 @@ public class ReporterProxy
 	private class ReaderThread extends Thread {
 		public void run() {
 			byte[] payload = new byte[260]; 
-			// byte[] cipher;
 			try {
 				for (;;) {
 					DatagramPacket packet = new DatagramPacket (payload, payload.length);
 					mailbox.receive (packet);
-					DataInputStream in = new DataInputStream(new ByteArrayInputStream(payload, 0, packet.getLength()));
-					byte b = in.readByte();
-                    System.out.println(b);
-					switch (b) {
-						case 'E':
-							int read = 0;
-							while ((read = in.read(payload, 0, payload.length)) != -1) {
-								in.read(payload);
-							}
-							reporter.decode(payload);
-							break;
-						default:
-							System.out.println("ERROR3");
-							System.exit(1);
-							break;
-					}
-				}
+                    byte[] pay = new byte[packet.getLength()];
+                    for (int i = 0; i < packet.getLength(); i++) {
+                        pay[i] = payload[i];
+                    } 
+                    reporter.decode(pay);
+                }
 			} catch (IOException exc) {
 				System.out.println("ERROR2");
 				System.exit (1);

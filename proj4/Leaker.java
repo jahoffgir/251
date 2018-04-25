@@ -26,9 +26,8 @@ import java.net.DatagramSocket;
             LeakerProxy proxy = new LeakerProxy (reporter, new InetSocketAddress(rhost, rport));
             LeakerModel lm = new LeakerModel(message, proxy, publicKeyFile);
         } catch (Exception e) {
-            System.err.println("Illegal arguement.");
             e.printStackTrace();
-            //usage();
+            System.exit (1);
         }
 
     }
