@@ -1,12 +1,13 @@
 import java.net.InetSocketAddress;
 import java.net.DatagramSocket;
-
 /**
+ * 
+ * Leaker class that will get the main inputs and will set up the network.
  * 
  * @author Jahongir Amirkulov
  * @version 04/08/18
+ * 
  */
-
  public class Leaker {
 
     // main method
@@ -22,12 +23,13 @@ import java.net.DatagramSocket;
             int lport = Integer.parseInt(args[3]);
             String publicKeyFile = args[4];
             String message = args[5];
+            // Setting up UDP
             DatagramSocket reporter = new DatagramSocket(new InetSocketAddress (lhost, lport));
             LeakerProxy proxy = new LeakerProxy (reporter, new InetSocketAddress(rhost, rport));
             LeakerModel lm = new LeakerModel(message, proxy, publicKeyFile);
         } catch (Exception e) {
-            e.printStackTrace();
-            System.exit (1);
+            System.err.println("Error in Leaker input");
+            System.exit(1);
         }
 
     }
