@@ -10,6 +10,7 @@ public class LeakerProxy {
     // private variables
     private DatagramSocket reporter;
     private SocketAddress destination;
+    
 
     /**
      * 
@@ -31,7 +32,9 @@ public class LeakerProxy {
     *     Thrown if an I/O error occurred.
     */
     public void encode(byte [] cipher) throws IOException {
-        DataOutputStream out = new DataOutputStream ();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream (baos);
+    
         out.writeByte('E');
         out.write(cipher);;
         out.close();

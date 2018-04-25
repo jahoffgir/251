@@ -1,5 +1,6 @@
 import java.net.InetSocketAddress;
 import java.net.DatagramSocket;
+
 /**
  * 
  * @author Jahongir Amirkulov
@@ -21,7 +22,7 @@ import java.net.DatagramSocket;
             int lport = Integer.parseInt(args[3]);
             String publicKeyFile = args[4];
             String message = args[5];
-            DatagramSocket reporter = new DatagramSocket(new InetSocketAddress (rport, rport));
+            DatagramSocket reporter = new DatagramSocket(new InetSocketAddress (rhost, rport));
             LeakerProxy proxy = new LeakerProxy (reporter, new InetSocketAddress(lhost, lport));
             LeakerModel lm = new LeakerModel(message, proxy, publicKeyFile);
         } catch (Exception e) {

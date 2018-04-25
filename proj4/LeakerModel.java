@@ -1,4 +1,9 @@
 import java.math.BigInteger;
+import java.io.File;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.util.Random;
+import java.io.IOException;
 
 public class LeakerModel {
     private String message;
@@ -20,17 +25,17 @@ public class LeakerModel {
             OAEP op = new OAEP();
             // seed
             byte [] bt = new byte[32];
-
+            new Random().nextBytes(bt);
             // Plain text
-            BigInteger plaintext = op.encode(message, new Random().nextBytes(bt));
+            BigInteger plaintext = op.encode(message, bt);
 
             // read the publickey file and extract the exponent and the modulus
             File file = new File(publicKeyFile);
 			FileReader fileReader = new FileReader(file);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
             int increment = 0;
-            BigInteger exponentE;
-            BigInteger modulusM;
+            BigInteger exponentE = new BigInteger("0");
+            BigInteger modulusM = new BigInteger("0");
 			String line;
 			while ((line = bufferedReader.readLine()) != null) {
                 if (increment == 0) exponentE = new BigInteger(line);
