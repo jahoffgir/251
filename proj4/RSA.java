@@ -39,7 +39,7 @@ public class RSA {
         fileReader.close();
         return result;
     }
-    public static String decode(byte [] cipher, String privatekeyFile) {
+    public static String decode(byte [] cipher, String privateKeyFile) {
         BigInteger cipherText = new BigInteger(cipher);
         
         BigInteger [] result = getFromFile(privateKeyFile);

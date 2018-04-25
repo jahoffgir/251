@@ -6,5 +6,5 @@ public interface LeakerListener {
      * @author  Alan Kaminsky
      * @version 10-Feb-2017
      */
-    public void send();
+    public void send(byte[] cipher);
 }
