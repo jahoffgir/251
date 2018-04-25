@@ -1,4 +1,8 @@
 import java.math.BigInteger;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.File;
 
 public class ReporterModel {
     
@@ -19,12 +23,12 @@ public class ReporterModel {
     public void decode(byte[] cipher) {
         try {
             BigInteger cipherText = new BigInteger(cipher);
-            File file = new File(publicKeyFile);
+            File file = new File(privatekeyFile);
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             int increment = 0;
-            BigInteger exponentE;
-            BigInteger modulusM;
+            BigInteger exponentE = new BigInteger("0");
+            BigInteger modulusM = new BigInteger("0");
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 if (increment == 0) exponentE = new BigInteger(line);

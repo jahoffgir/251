@@ -1,3 +1,5 @@
+import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
 /**
  * 
  * @author Jahongir Amirkulov
@@ -19,7 +21,7 @@ public class Reporter {
             DatagramSocket reporter = new DatagramSocket(new InetSocketAddress (rport, rport));
             
             ReporterModel rm = new ReporterModel(privateKeyFile);
-            ReportProxy rp = new ReportProxy(reporter, rm);
+            ReporterProxy rp = new ReporterProxy(reporter, rm);
             
         } catch (Exception e) {
             System.err.println("Illegal arguement.");

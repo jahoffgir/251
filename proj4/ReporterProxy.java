@@ -37,7 +37,7 @@ import java.net.DatagramSocket;
  * @author  Alan Kaminsky
  * @version 10-Feb-2017
  */
-public class ReportProxy
+public class ReporterProxy
 	{
 
 	// Hidden data members. 
@@ -59,7 +59,7 @@ public class ReportProxy
 
 	public void decode() {
 		byte[] payload = new byte[260]; 
-		byte[] cipher;
+		// byte[] cipher;
 		try {
 			for (;;) {
 				DatagramPacket packet = new DatagramPacket (payload, payload.length);
@@ -68,8 +68,11 @@ public class ReportProxy
 				byte b = in.readByte();
 				switch (b) {
 					case 'E':
-						cipher = in.readByte();
-						reporter.decode(cipher);
+						int read = 0;
+						while ((read = in.read(payload, 0, payload.length)) != -1) {
+							in.read(payload);
+						}
+						reporter.decode(payload);
 						break;
 					default:
 						System.out.println("ERROR");
@@ -89,8 +92,8 @@ public class ReportProxy
 	 */
 	private class ReaderThread extends Thread {
 		public void run() {
-			byte[] payload = new byte[260]; /* CAREFUL OF BUFFER SIZE! */
-			byte[] cipher;
+			byte[] payload = new byte[260]; 
+			// byte[] cipher;
 			try {
 				for (;;) {
 					DatagramPacket packet = new DatagramPacket (payload, payload.length);
@@ -99,8 +102,11 @@ public class ReportProxy
 					byte b = in.readByte();
 					switch (b) {
 						case 'E':
-							cipher = in.readByte();
-							reporter.decode(cipher);
+							int read = 0;
+							while ((read = in.read(payload, 0, payload.length)) != -1) {
+								in.read(payload);
+							}
+							reporter.decode(payload);
 							break;
 						default:
 							System.out.println("ERROR");
@@ -109,7 +115,6 @@ public class ReportProxy
 					}
 				}
 			} catch (IOException exc) {
-				// exc.printStackTrace (System.err);
 				System.out.println("ERROR");
 				System.exit (1);
 			}
