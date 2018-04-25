@@ -32,7 +32,7 @@ public class LeakerProxy {
     */
     public void encode(byte [] cipher) throws IOException {
         DataOutputStream out = new DataOutputStream ();
-        out.writeByte('R');
+        out.writeByte('E');
         out.write(cipher);;
         out.close();
         byte[] payload = new byte[260];

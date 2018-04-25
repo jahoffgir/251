@@ -17,9 +17,10 @@ public class Reporter {
             int rport = Integer.parseInt(args[1]);
             String privateKeyFile = args[2];
             DatagramSocket reporter = new DatagramSocket(new InetSocketAddress (rport, rport));
-            ReportProxy rp = new ReportProxy(reporter);
+            
             ReporterModel rm = new ReporterModel(privateKeyFile);
-            rp.setListener(rm);
+            ReportProxy rp = new ReportProxy(reporter, rm);
+            
         } catch (Exception e) {
             System.err.println("Illegal arguement.");
             usage();

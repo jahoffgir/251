@@ -40,12 +40,9 @@ import java.net.DatagramSocket;
 public class ReportProxy
 	{
 
-// Hidden data members.
-
-	private DatagramSocket report;
-	private SensorListener listener;
-
-// Exported constructors.
+	// Hidden data members. 
+	private DatagramSocket mailbox;
+	private ReporterModel reporter;
 
 	/**
 	 * Construct a new sensor proxy.
@@ -55,62 +52,68 @@ public class ReportProxy
 	 * @exception  IOException
 	 *     Thrown if an I/O error occurred.
 	 */
-	public ReporterProxy(DatagramSocket report) {
-		this.report = report;
+	public ReporterProxy(DatagramSocket mailbox, ReporterModel reporter) {
+		this.mailbox = mailbox;
+		this.reporter = reporter;
 	}
 
-	
-	public void setListener(SensorListener listener) {
-		
-		new ReaderThread() .start();
+	public void decode() {
+		byte[] payload = new byte[260]; 
+		byte[] cipher;
+		try {
+			for (;;) {
+				DatagramPacket packet = new DatagramPacket (payload, payload.length);
+				mailbox.receive (packet);
+				DataInputStream in = new DataInputStream(new ByteArrayInputStream(payload, 0, packet.getLength()));
+				byte b = in.readByte();
+				switch (b) {
+					case 'E':
+						cipher = in.readByte();
+						reporter.decode(cipher);
+						break;
+					default:
+						System.out.println("ERROR");
+						System.exit(1);
+						break;
+				}
+			}
+		} catch (IOException exc) {
+			System.out.println("ERROR");
+			System.exit (1);
+		}
 	}
-	// Hidden helper classes.
 
 	/**
 	 * Class ReaderThread receives messages from the network, decodes them, and
 	 * invokes the proper methods to process them.
 	 */
-	private class ReaderThread
-		extends Thread
-		{
-		public void run()
-			{
-			byte[] payload = new byte [260]; /* CAREFUL OF BUFFER SIZE! */
-			String location;
-			long timestamp;
-			boolean fire;
-			try
-				{
-				for (;;)
-					{
-					DatagramPacket packet =
-						new DatagramPacket (payload, payload.length);
+	private class ReaderThread extends Thread {
+		public void run() {
+			byte[] payload = new byte[260]; /* CAREFUL OF BUFFER SIZE! */
+			byte[] cipher;
+			try {
+				for (;;) {
+					DatagramPacket packet = new DatagramPacket (payload, payload.length);
 					mailbox.receive (packet);
-					DataInputStream in =
-						new DataInputStream
-							(new ByteArrayInputStream
-								(payload, 0, packet.getLength()));
+					DataInputStream in = new DataInputStream(new ByteArrayInputStream(payload, 0, packet.getLength()));
 					byte b = in.readByte();
-					switch (b)
-						{
-						case 'R':
-							location = in.readUTF();
-							timestamp = in.readLong();
-							fire = in.readBoolean();
-							listener.report (location, timestamp, fire);
+					switch (b) {
+						case 'E':
+							cipher = in.readByte();
+							reporter.decode(cipher);
 							break;
 						default:
-							System.err.println ("Bad message");
+							System.out.println("ERROR");
+							System.exit(1);
 							break;
-						}
 					}
 				}
-			catch (IOException exc)
-				{
-				exc.printStackTrace (System.err);
+			} catch (IOException exc) {
+				// exc.printStackTrace (System.err);
+				System.out.println("ERROR");
 				System.exit (1);
-				}
 			}
 		}
-
 	}
+
+}
