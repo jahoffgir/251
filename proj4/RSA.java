@@ -34,6 +34,7 @@ public class RSA {
      * @param message - message
      */
     public byte[] encode(String message) {
+        BigInteger c = BigInteger.ZERO;
         try {
             OAEP op = new OAEP();
             // seed
@@ -43,7 +44,7 @@ public class RSA {
             BigInteger plaintext = op.encode(message, bt);
             BigInteger [] result = getFromFile(fileName);
             // c = m^e (mod n) encoding it
-            BigInteger c = plaintext.modPow(result[0], result[1]); 
+            c = plaintext.modPow(result[0], result[1]); 
         } catch (Exception e) {
             System.out.println("ERROR");
             System.exit(1);
@@ -87,14 +88,14 @@ public class RSA {
      * @param privateKeyFile - the file
      */
     public String decode(byte [] cipher) {
-        ;
+        String decode = "";
         try {
             BigInteger cipherText = new BigInteger(cipher);
             BigInteger [] result = getFromFile(fileName);
             // decoding 
             BigInteger plaintext = cipherText.modPow(result[0], result[1]);
             OAEP op = new OAEP();
-            String decode = op.decode(plaintext);
+            decode= op.decode(plaintext);
         } catch (Exception e) {
             System.out.println("ERROR");
             System.exit(1);
