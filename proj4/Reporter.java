@@ -18,7 +18,7 @@ public class Reporter {
             String rhost = args[0];
             int rport = Integer.parseInt(args[1]);
             String privateKeyFile = args[2];
-            DatagramSocket reporter = new DatagramSocket(new InetSocketAddress (rport, rport));
+            DatagramSocket reporter = new DatagramSocket(new InetSocketAddress (rhost, rport));
             
             ReporterModel rm = new ReporterModel(privateKeyFile);
             ReporterProxy rp = new ReporterProxy(reporter, rm);
