@@ -13,6 +13,7 @@ public class LeakerModel {
         this.message = message;
         this.proxy = proxy;
         this.publicKeyFile = publicKeyFile;
+        encode();
     }
 
     /**

@@ -59,34 +59,6 @@ public class ReporterProxy
 	public void start() {
 		new ReaderThread() .start();
 	}
-	public void decode() {
-		byte[] payload = new byte[260]; 
-		// byte[] cipher;
-		try {
-			for (;;) {
-				DatagramPacket packet = new DatagramPacket (payload, payload.length);
-				mailbox.receive (packet);
-				DataInputStream in = new DataInputStream(new ByteArrayInputStream(payload, 0, packet.getLength()));
-				byte b = in.readByte();
-				switch (b) {
-					case 'E':
-						int read = 0;
-						while ((read = in.read(payload, 0, payload.length)) != -1) {
-							in.read(payload);
-						}
-						reporter.decode(payload);
-						break;
-					default:
-						System.out.println("ERROR");
-						System.exit(1);
-						break;
-				}
-			}
-		} catch (IOException exc) {
-			System.out.println("ERROR");
-			System.exit (1);
-		}
-	}
 
 	/**
 	 * Class ReaderThread receives messages from the network, decodes them, and
@@ -102,6 +74,7 @@ public class ReporterProxy
 					mailbox.receive (packet);
 					DataInputStream in = new DataInputStream(new ByteArrayInputStream(payload, 0, packet.getLength()));
 					byte b = in.readByte();
+                    System.out.println(b);
 					switch (b) {
 						case 'E':
 							int read = 0;
@@ -111,13 +84,13 @@ public class ReporterProxy
 							reporter.decode(payload);
 							break;
 						default:
-							System.out.println("ERROR");
+							System.out.println("ERROR3");
 							System.exit(1);
 							break;
 					}
 				}
 			} catch (IOException exc) {
-				System.out.println("ERROR");
+				System.out.println("ERROR2");
 				System.exit (1);
 			}
 		}

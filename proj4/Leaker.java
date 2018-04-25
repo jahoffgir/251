@@ -22,12 +22,13 @@ import java.net.DatagramSocket;
             int lport = Integer.parseInt(args[3]);
             String publicKeyFile = args[4];
             String message = args[5];
-            DatagramSocket reporter = new DatagramSocket(new InetSocketAddress (rhost, rport));
-            LeakerProxy proxy = new LeakerProxy (reporter, new InetSocketAddress(lhost, lport));
+            DatagramSocket reporter = new DatagramSocket(new InetSocketAddress (lhost, lport));
+            LeakerProxy proxy = new LeakerProxy (reporter, new InetSocketAddress(rhost, rport));
             LeakerModel lm = new LeakerModel(message, proxy, publicKeyFile);
         } catch (Exception e) {
             System.err.println("Illegal arguement.");
-            usage();
+            e.printStackTrace();
+            //usage();
         }
 
     }
