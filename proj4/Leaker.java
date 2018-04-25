@@ -25,7 +25,7 @@ import java.net.DatagramSocket;
             String message = args[5];
             // Setting up UDP
             DatagramSocket reporter = new DatagramSocket(new InetSocketAddress (lhost, lport));
-            LeakerProxy proxy = new LeakerProxy (reporter, new InetSocketAddress(rhost, rport));
+            ReporterProxy proxy = new LeakerProxy (reporter, new InetSocketAddress(rhost, rport));
             LeakerModel lm = new LeakerModel(message, proxy, publicKeyFile);
         } catch (Exception e) {
             System.err.println("Error in Leaker input");

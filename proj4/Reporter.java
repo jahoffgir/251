@@ -23,7 +23,7 @@ public class Reporter {
             String privateKeyFile = args[2];
             DatagramSocket reporter = new DatagramSocket(new InetSocketAddress (rhost, rport));
             ReporterModel rm = new ReporterModel(privateKeyFile);
-            ReporterProxy rp = new ReporterProxy(reporter, rm);
+            LeakerProxy rp = new LeakerProxy(reporter, rm);
             rp.start();  
         } catch (Exception e) {
             System.err.println("Error in the Reporter.");

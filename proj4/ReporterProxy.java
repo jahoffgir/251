@@ -1,69 +1,52 @@
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.SocketAddress;
 
 /**
- * Class ReporterProxy for the Reporter Class. It will get the decoded message 
- * and will call the appropriate method
- *
- * @author  Jahongir Amirkulov
+ * Class ReporterProxy for the Leaker. It sends the the encoded message to the Reporter.
+ * 
+ * @author Jahongir Amirkulov
  * @version 04/25/18
+ * 
  */
 public class ReporterProxy {
 
-	// Hidden data members. 
-	private DatagramSocket mailbox;
-	private ReporterModel reporter;
+    // private variables
+    private DatagramSocket reporter;
+    private SocketAddress destination;
+    
 
-	/**
-	 * Construct a new reporter proxy.
-	 *
-	 * @param  mailbox  Mailbox.
-	 * @param  reporter Reporter.
-	 *
-	 * @exception  IOException
-	 *     Thrown if an I/O error occurred.
-	 */
-	public ReporterProxy(DatagramSocket mailbox, ReporterModel reporter) {
-		this.mailbox = mailbox;
-		this.reporter = reporter;
-	}
+    /**
+     * 
+     * ReporterProxy Constructor for LeakerProxy
+     * 
+     * @param report - datagram socket
+     * @param destination - destination
+     */
+    public ReporterProxy(DatagramSocket reporter, SocketAddress destination) {
+        this.reporter = reporter;
+        this.destination = destination;
+    }
 
-	/**
-	 * 
-	 * Starts the threads running
-	 * 
-	 */
-	public void start() {
-		new ReaderThread() .start();
-	}
-
-	/**
-	 * 
-	 * Class ReaderThread receives messages from the network, decodes them, and
-	 * invokes the proper methods to process them.
-	 * 
-	 */
-	private class ReaderThread extends Thread {
-		public void run() {
-			byte[] payload = new byte[260]; 
-			try {
-				for (;;) {
-					DatagramPacket packet = new DatagramPacket (payload, payload.length);
-					mailbox.receive (packet);
-                    byte[] pay = new byte[packet.getLength()];
-                    for (int i = 0; i < packet.getLength(); i++) {
-                        pay[i] = payload[i];
-                    } 
-                    reporter.decode(pay);
-                }
-			} catch (IOException exc) {
-				System.out.println("ERROR");
-				System.exit(1);
-			}
-		}
-	}
+    
+    /**
+    * Report the state of a fire sensor.
+    *
+    * @param cipher - cipher that is being sent
+    *
+    * @exception  IOException
+    *     Thrown if an I/O error occurred.
+    */
+    public void encode(byte [] cipher) throws IOException {
+        try {
+            reporter.send(new DatagramPacket(cipher, cipher.length, destination));
+        } catch (IOException e) {
+            System.err.println("Error in the ReporterProxy.");
+            System.exit(1);
+        }
+    }
 
 }

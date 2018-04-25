@@ -12,7 +12,7 @@ import java.io.File;
  * @version 04/25/18
  * 
  */
-public class ReporterModel {
+public class ReporterModel implements LeakerListener{
     
     // Hidden variables
     private String privatekeyFile;
@@ -28,6 +28,14 @@ public class ReporterModel {
         this.privatekeyFile = privateKeyFile;
     }
 
+    public void send(byte[] cipher) {
+        try {
+            System.out.println(RSA.decode(cipher, privatekeyFile));
+        } catch(Exception e) {
+            System.out.println("ERROR");
+            System.exit(1);
+        }
+    }
     /**
      * 
      * Decodes the ciphertext
@@ -35,33 +43,12 @@ public class ReporterModel {
      * @param cipher - cipher text that needs to be decoded
      * 
      */
-    public void decode(byte[] cipher) {
-        try {
-            BigInteger cipherText = new BigInteger(cipher);
-            File file = new File(privatekeyFile);
-            FileReader fileReader = new FileReader(file);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            int increment = 0;
-            // initializes E and M
-            BigInteger exponentE = BigInteger.ZERO;
-            BigInteger modulusM = BigInteger.ZERO;
-            String line;
-            // Getting E and M
-            while ((line = bufferedReader.readLine()) != null) {
-                if (increment == 0) exponentE = new BigInteger(line);
-                else if (increment == 1) modulusM = new BigInteger(line);
-                increment++;
-            }
-            fileReader.close();
-
-            // decoding 
-            BigInteger plaintext = cipherText.modPow(exponentE, modulusM);
-            OAEP op = new OAEP();
-            String decode = op.decode(plaintext);
-            System.out.println(decode);
-        } catch(Exception e) {
-            System.out.println("ERROR");
-            System.exit(1);
-        }
-    }
+    // public void decode(byte[] cipher) {
+    //     try {
+    //         System.out.println(RSA.decode(cipher, privatekeyFile));
+    //     } catch(Exception e) {
+    //         System.out.println("ERROR");
+    //         System.exit(1);
+    //     }
+    // }
 }

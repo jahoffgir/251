@@ -16,7 +16,7 @@ public class LeakerModel {
 
     // Hidden variables
     private String message;
-    private LeakerProxy proxy;
+    private ReporterProxy proxy;
     private String publicKeyFile;
 
     /**
@@ -27,7 +27,7 @@ public class LeakerModel {
      * @param publicKeyFile - public file
      * 
      */
-    public LeakerModel(String message, LeakerProxy proxy, String publicKeyFile) {
+    public LeakerModel(String message, ReporterProxy proxy, String publicKeyFile) {
         this.message = message;
         this.proxy = proxy;
         this.publicKeyFile = publicKeyFile;
@@ -41,32 +41,8 @@ public class LeakerModel {
      */
     public void encode() {
         try {
-            OAEP op = new OAEP();
-            // seed
-            byte [] bt = new byte[32];
-            new Random().nextBytes(bt);
-            // Plain text
-            BigInteger plaintext = op.encode(message, bt);
-
-            // read the publickey file and extract the exponent and the modulus
-            File file = new File(publicKeyFile);
-			FileReader fileReader = new FileReader(file);
-			BufferedReader bufferedReader = new BufferedReader(fileReader);
-            int increment = 0;
-            BigInteger exponentE = BigInteger.ZERO;
-            BigInteger modulusM = BigInteger.ZERO;
-			String line;
-			while ((line = bufferedReader.readLine()) != null) {
-                if (increment == 0) exponentE = new BigInteger(line);
-                else if (increment == 1) modulusM = new BigInteger(line);
-                increment++;
-			}
-            fileReader.close();
             
-            // c = m^e (mod n) encoding it
-            BigInteger c = plaintext.modPow(exponentE, modulusM);
-            byte [] cipher = c.toByteArray();
-            proxy.encode(cipher);
+            proxy.encode(RSA.encode(publicKeyFile));
         } catch (IOException exc) {
             System.err.println("Error in the Leaker Model.");
             System.exit(1);
