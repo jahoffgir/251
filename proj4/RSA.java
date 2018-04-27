@@ -16,22 +16,25 @@ import java.util.Random;
 public class RSA {
 
     // hidden variables
-    private String fileName;
+    private String publicKeyFile;
+    private String privateKeyFile;
 
     /**
      * RSA constructor 
      * 
-     * @param fileName - file
+     * @param publicKeyFile - public file
+     * @param privateKeyFile - private file
      */
-    public RSA (String fileName) {
-        this.fileName = fileName;
+    public RSA (String publicKeyFile, String privateKeyFile) {
+        this.publicKeyFile = publicKeyFile;
+        this.privateKeyFile = privateKeyfile;
     }
 
     /**
      * Encodes the message
      * 
-     * @param publicKeyFile - the file
      * @param message - message
+     * 
      */
     public byte[] encode(String message) {
         BigInteger c = BigInteger.ZERO;
@@ -42,7 +45,7 @@ public class RSA {
             new Random().nextBytes(bt);
             // Plain text
             BigInteger plaintext = op.encode(message, bt);
-            BigInteger [] result = getFromFile(fileName);
+            BigInteger [] result = getFromFile(publicKeyFile);
             // c = m^e (mod n) encoding it
             c = plaintext.modPow(result[0], result[1]); 
         } catch (Exception e) {
@@ -57,6 +60,7 @@ public class RSA {
      * Gets the exponent and modulus from file
      * 
      * @param fileName - the file
+     * 
      */
     private BigInteger[] getFromFile(String fileName) {
         BigInteger [] result = new BigInteger [2];
@@ -85,13 +89,13 @@ public class RSA {
      * Decodes the message
      * 
      * @param cipher - ciphertext
-     * @param privateKeyFile - the file
+     *
      */
     public String decode(byte [] cipher) {
         String decode = "";
         try {
             BigInteger cipherText = new BigInteger(cipher);
-            BigInteger [] result = getFromFile(fileName);
+            BigInteger [] result = getFromFile(privateKeyFile);
             // decoding 
             BigInteger plaintext = cipherText.modPow(result[0], result[1]);
             OAEP op = new OAEP();
