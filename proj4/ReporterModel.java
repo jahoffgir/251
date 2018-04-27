@@ -15,7 +15,7 @@ import java.io.File;
 public class ReporterModel implements LeakerListener{
     
     // Hidden variables
-    private String privatekeyFile;
+    private RSA rsa;
 
     /**
      * 
@@ -24,8 +24,8 @@ public class ReporterModel implements LeakerListener{
      * @param privateKeyFile - private file
      * 
      */
-    public ReporterModel(String privateKeyFile) {
-        this.privatekeyFile = privateKeyFile;
+    public ReporterModel(String file) {
+        this.rsa = new RSA(file);
     }
 
     /**
@@ -37,7 +37,6 @@ public class ReporterModel implements LeakerListener{
      */
     public void send(byte[] cipher) {
         try {
-            RSA rsa = new RSA(privatekeyFile);
             System.out.println(rsa.decode(cipher));
         } catch(Exception e) {
             System.out.println("ERROR");

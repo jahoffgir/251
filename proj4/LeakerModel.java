@@ -17,20 +17,20 @@ public class LeakerModel {
     // Hidden variables
     private String message;
     private ReporterProxy proxy;
-    private String publicKeyFile;
+    private RSA rsa;
 
     /**
      * LeakerModel constructor for LeakerModel
      * 
      * @param message - message
      * @param proxy - the leaker proxy
-     * @param publicKeyFile - public file
+     * @param file - file name
      * 
      */
-    public LeakerModel(String message, ReporterProxy proxy, String publicKeyFile) {
+    public LeakerModel(String message, ReporterProxy proxy, String file) {
         this.message = message;
         this.proxy = proxy;
-        this.publicKeyFile = publicKeyFile;
+        this.rsa = new RSA(file);
         encode();
     }
 
@@ -41,7 +41,6 @@ public class LeakerModel {
      */
     public void encode() {
         try {
-            RSA rsa = new RSA(publicKeyFile);
             proxy.encode(rsa.encode(message));
         } catch (IOException exc) {
             System.err.println("Error in the Leaker Model.");

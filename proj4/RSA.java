@@ -16,18 +16,16 @@ import java.util.Random;
 public class RSA {
 
     // hidden variables
-    private String publicKeyFile;
-    private String privateKeyFile;
+    private String file;
 
     /**
      * RSA constructor 
      * 
-     * @param publicKeyFile - public file
-     * @param privateKeyFile - private file
+     * @param file - file name
+     * 
      */
-    public RSA (String publicKeyFile, String privateKeyFile) {
-        this.publicKeyFile = publicKeyFile;
-        this.privateKeyFile = privateKeyfile;
+    public RSA(String file) {
+        this.file = file;
     }
 
     /**
@@ -45,7 +43,7 @@ public class RSA {
             new Random().nextBytes(bt);
             // Plain text
             BigInteger plaintext = op.encode(message, bt);
-            BigInteger [] result = getFromFile(publicKeyFile);
+            BigInteger [] result = getFromFile(file);
             // c = m^e (mod n) encoding it
             c = plaintext.modPow(result[0], result[1]); 
         } catch (Exception e) {
@@ -66,8 +64,8 @@ public class RSA {
         BigInteger [] result = new BigInteger [2];
         try {
             // read the publickey file and extract the exponent and the modulus
-            File file = new File(fileName);
-            FileReader fileReader = new FileReader(file);
+            File files = new File(fileName);
+            FileReader fileReader = new FileReader(files);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             int increment = 0;
             String line;
@@ -95,7 +93,7 @@ public class RSA {
         String decode = "";
         try {
             BigInteger cipherText = new BigInteger(cipher);
-            BigInteger [] result = getFromFile(privateKeyFile);
+            BigInteger [] result = getFromFile(file);
             // decoding 
             BigInteger plaintext = cipherText.modPow(result[0], result[1]);
             OAEP op = new OAEP();
