@@ -18,6 +18,7 @@ public class RSA {
     // hidden variables
     private BigInteger exponent;
     private BigInteger modulus;
+    private OAEP op;
     /**
      * RSA constructor 
      * 
