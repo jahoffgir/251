@@ -75,7 +75,7 @@ public class RSA {
             }
             fileReader.close();  
         } catch (IOException a) {
-            System.err.println("ERROR");
+            System.out.println("ERROR");
         }
         return result;
     }

@@ -39,8 +39,7 @@ public class ReporterModel implements LeakerListener{
         try {
             System.out.println(rsa.decode(cipher));
         } catch(Exception e) {
-            System.out.println("ERROR");
-            System.exit(1);
+            System.out.println("Error in ReportModel");
         }
     }
 }
