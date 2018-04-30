@@ -85,7 +85,6 @@ public class RSA {
             BigInteger cipherText = new BigInteger(cipher);
             // decoding 
             BigInteger plaintext = cipherText.modPow(exponent, modulus);
-            OAEP op = new OAEP();
             decode= op.decode(plaintext);
         } catch (Exception e) {
             return "ERROR";
