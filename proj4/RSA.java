@@ -4,7 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.util.Random;
-
+import java.nio.file.NoSuchFileException;
 /**
  * 
  * Class RSA that will encode and decode the message
@@ -16,8 +16,7 @@ import java.util.Random;
 public class RSA {
 
     // hidden variables
-    private String file;
-
+    private File files;
     /**
      * RSA constructor 
      * 
@@ -25,7 +24,11 @@ public class RSA {
      * 
      */
     public RSA(String file) {
-        this.file = file;
+        this.files = new File(file);
+        if (!files.exists()) {
+            System.err.println("No such file exists");
+            System.exit(1);
+        }
     }
 
     /**
@@ -43,12 +46,11 @@ public class RSA {
             new Random().nextBytes(bt);
             // Plain text
             BigInteger plaintext = op.encode(message, bt);
-            BigInteger [] result = getFromFile(file);
+            BigInteger [] result = getFromFile();
             // c = m^e (mod n) encoding it
             c = plaintext.modPow(result[0], result[1]); 
         } catch (Exception e) {
             System.out.println("ERROR");
-            System.exit(1);
         }
         return c.toByteArray();
 
@@ -57,14 +59,11 @@ public class RSA {
     /**
      * Gets the exponent and modulus from file
      * 
-     * @param fileName - the file
-     * 
      */
-    private BigInteger[] getFromFile(String fileName) {
+    private BigInteger[] getFromFile() {
         BigInteger [] result = new BigInteger [2];
         try {
             // read the publickey file and extract the exponent and the modulus
-            File files = new File(fileName);
             FileReader fileReader = new FileReader(files);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             int increment = 0;
@@ -77,7 +76,6 @@ public class RSA {
             fileReader.close();  
         } catch (IOException a) {
             System.err.println("ERROR");
-            System.exit(1);
         }
         return result;
     }
@@ -93,14 +91,13 @@ public class RSA {
         String decode = "";
         try {
             BigInteger cipherText = new BigInteger(cipher);
-            BigInteger [] result = getFromFile(file);
+            BigInteger [] result = getFromFile();
             // decoding 
             BigInteger plaintext = cipherText.modPow(result[0], result[1]);
             OAEP op = new OAEP();
             decode= op.decode(plaintext);
         } catch (Exception e) {
             System.out.println("ERROR");
-            System.exit(1);
         }
         return decode;
     }

@@ -3,7 +3,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.File;
-
+import java.nio.file.NoSuchFileException;
 /**
  * 
  * ReportModel class that will do the main logic for decoding the encoded message.
