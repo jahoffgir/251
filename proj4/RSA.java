@@ -16,7 +16,8 @@ import java.nio.file.NoSuchFileException;
 public class RSA {
 
     // hidden variables
-    private BigInteger [] result;
+    private BigInteger exponent;
+    private BigInteger modulus;
 
     /**
      * RSA constructor 
@@ -30,7 +31,6 @@ public class RSA {
             System.err.println("No such file exists");
             System.exit(1);
         }
-        result = new BigInteger [2];
         try {
             // read the publickey file and extract the exponent and the modulus
             FileReader fileReader = new FileReader(files);
@@ -38,8 +38,8 @@ public class RSA {
             int increment = 0;
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                if (increment == 0) result[0] = new BigInteger(line);
-                else if (increment == 1) result[1] = new BigInteger(line);
+                if (increment == 0) exponent = new BigInteger(line);
+                else if (increment == 1) modulus = new BigInteger(line);
                 increment++;
             }
             fileReader.close();  
@@ -64,7 +64,7 @@ public class RSA {
             // Plain text
             BigInteger plaintext = op.encode(message, bt);
             // c = m^e (mod n) encoding it
-            c = plaintext.modPow(result[0], result[1]); 
+            c = plaintext.modPow(exponent, modulus); 
         } catch (Exception e) {
             System.out.print("ERROR");
         }
@@ -84,7 +84,7 @@ public class RSA {
         try {
             BigInteger cipherText = new BigInteger(cipher);
             // decoding 
-            BigInteger plaintext = cipherText.modPow(result[0], result[1]);
+            BigInteger plaintext = cipherText.modPow(exponent, modulus);
             OAEP op = new OAEP();
             decode= op.decode(plaintext);
         } catch (Exception e) {
@@ -92,5 +92,4 @@ public class RSA {
         }
         return decode;
     }
-
 }
