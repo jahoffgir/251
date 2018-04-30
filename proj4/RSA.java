@@ -17,7 +17,7 @@ public class RSA {
 
     // hidden variables
     private BigInteger [] result;
-
+    private OAEP op;
     /**
      * RSA constructor 
      * 
@@ -26,6 +26,7 @@ public class RSA {
      */
     public RSA(String file) {
         File files = new File(file);
+        op = new OAEP();
         if (!files.exists()) {
             System.err.println("No such file exists");
             System.exit(1);
@@ -57,7 +58,6 @@ public class RSA {
     public byte[] encode(String message) {
         BigInteger c = BigInteger.ZERO;
         try {
-            OAEP op = new OAEP();
             // seed
             byte [] bt = new byte[32];
             new Random().nextBytes(bt);
@@ -85,10 +85,9 @@ public class RSA {
             BigInteger cipherText = new BigInteger(cipher);
             // decoding 
             BigInteger plaintext = cipherText.modPow(result[0], result[1]);
-            OAEP op = new OAEP();
             decode= op.decode(plaintext);
         } catch (Exception e) {
-            System.out.print("ERROR");
+            return "ERROR";
         }
         return decode;
     }
