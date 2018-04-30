@@ -16,7 +16,8 @@ import java.nio.file.NoSuchFileException;
 public class RSA {
 
     // hidden variables
-    private File files;
+    private BigInteger [] result;
+
     /**
      * RSA constructor 
      * 
@@ -24,10 +25,26 @@ public class RSA {
      * 
      */
     public RSA(String file) {
-        this.files = new File(file);
+        File files = new File(file);
         if (!files.exists()) {
             System.err.println("No such file exists");
             System.exit(1);
+        }
+        result = new BigInteger [2];
+        try {
+            // read the publickey file and extract the exponent and the modulus
+            FileReader fileReader = new FileReader(files);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            int increment = 0;
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                if (increment == 0) result[0] = new BigInteger(line);
+                else if (increment == 1) result[1] = new BigInteger(line);
+                increment++;
+            }
+            fileReader.close();  
+        } catch (IOException a) {
+            System.out.print("ERROR");
         }
     }
 
@@ -46,38 +63,13 @@ public class RSA {
             new Random().nextBytes(bt);
             // Plain text
             BigInteger plaintext = op.encode(message, bt);
-            BigInteger [] result = getFromFile();
             // c = m^e (mod n) encoding it
             c = plaintext.modPow(result[0], result[1]); 
         } catch (Exception e) {
-            System.out.println("ERROR");
+            System.out.print("ERROR");
         }
         return c.toByteArray();
 
-    }
-
-    /**
-     * Gets the exponent and modulus from file
-     * 
-     */
-    private BigInteger[] getFromFile() {
-        BigInteger [] result = new BigInteger [2];
-        try {
-            // read the publickey file and extract the exponent and the modulus
-            FileReader fileReader = new FileReader(files);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            int increment = 0;
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                if (increment == 0) result[0] = new BigInteger(line);
-                else if (increment == 1) result[1] = new BigInteger(line);
-                increment++;
-            }
-            fileReader.close();  
-        } catch (IOException a) {
-            System.out.println("ERROR");
-        }
-        return result;
     }
 
     /**
@@ -91,13 +83,12 @@ public class RSA {
         String decode = "";
         try {
             BigInteger cipherText = new BigInteger(cipher);
-            BigInteger [] result = getFromFile();
             // decoding 
             BigInteger plaintext = cipherText.modPow(result[0], result[1]);
             OAEP op = new OAEP();
             decode= op.decode(plaintext);
         } catch (Exception e) {
-            System.out.println("ERROR");
+            System.out.print("ERROR");
         }
         return decode;
     }
