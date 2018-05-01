@@ -4,7 +4,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.util.Random;
-import java.nio.file.NoSuchFileException;
 /**
  * 
  * Class RSA that will encode and decode the message
@@ -45,7 +44,8 @@ public class RSA {
             }
             fileReader.close();  
         } catch (IOException a) {
-            System.out.print("ERROR");
+            System.out.println("IOException in the RSA");
+            System.exit(1);
         }
     }
 
